@@ -2,11 +2,9 @@
 #include "DialogPlaylistLock.hpp"
 #include "PlaylistLock.hpp"
 
-CDialogPlaylistLock::CDialogPlaylistLock(size_t playlistIndex) : m_playlistIndex(playlistIndex), m_mask(Plman::api()->playlist_lock_get_filter_mask(playlistIndex)) {}
-
-BOOL CDialogPlaylistLock::OnInitDialog(CWindow, LPARAM)
+namespace
 {
-	const std::unordered_map<int, uint32_t> id_filter_map =
+	static const std::unordered_map<int, uint32_t> id_filter_map =
 	{
 		{ IDC_CHECK_FILTER_ADD, playlist_lock::filter_add },
 		{ IDC_CHECK_FILTER_REMOVE, playlist_lock::filter_remove },
@@ -15,7 +13,12 @@ BOOL CDialogPlaylistLock::OnInitDialog(CWindow, LPARAM)
 		{ IDC_CHECK_FILTER_RENAME, playlist_lock::filter_rename },
 		{ IDC_CHECK_FILTER_REMOVE_PLAYLIST, playlist_lock::filter_remove_playlist },
 	};
+}
 
+CDialogPlaylistLock::CDialogPlaylistLock(size_t playlistIndex) : m_playlistIndex(playlistIndex), m_mask(Plman::api()->playlist_lock_get_filter_mask(playlistIndex)) {}
+
+BOOL CDialogPlaylistLock::OnInitDialog(CWindow, LPARAM)
+{
 	for (const auto& [id, filter] : id_filter_map)
 	{
 		Item item(CCheckBox(GetDlgItem(id)), filter);
