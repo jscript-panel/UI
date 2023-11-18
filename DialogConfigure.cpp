@@ -67,7 +67,7 @@ void CDialogConfigure::InitControls()
 
 	if (m_panel->m_type == PanelBase::Type::CUIPanel)
 	{
-		m_combo_edge.SetCurSel(m_panel->m_config.m_style);
+		m_combo_edge.SetCurSel(m_panel->m_config.m_edge_style);
 	}
 	else
 	{
@@ -104,7 +104,7 @@ void CDialogConfigure::InitScintilla()
 
 void CDialogConfigure::OnApplyOrOK(uint32_t, int nID, CWindow)
 {
-	m_panel->m_config.m_style = m_combo_edge.GetCurSel();
+	m_panel->m_config.m_edge_style = m_combo_edge.GetCurSel();
 	m_panel->m_config.m_code = m_scintilla.GetCode();
 	m_panel->update_script();
 	m_scintilla.SetSavePoint();
