@@ -37,7 +37,7 @@ bool PropertyList::GetSubItemText(size_t row, size_t column, pfc::string_base& o
 		out = m_items[row].value;
 		return true;
 	default:
-		return true;
+		return false;
 	}
 }
 
