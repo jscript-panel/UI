@@ -1,11 +1,11 @@
 #include "stdafx.hpp"
 #include "DialogTextBox.hpp"
 
-CDialogTextBox::CDialogTextBox(wil::zwstring_view prompt, wil::zwstring_view caption, wil::zwstring_view value) : m_prompt(prompt), m_caption(caption), m_value(value) {}
+CDialogTextBox::CDialogTextBox(wil::zwstring_view prompt, wil::zwstring_view title, wil::zwstring_view value) : m_prompt(prompt), m_title(title), m_value(value) {}
 
 BOOL CDialogTextBox::OnInitDialog(CWindow, LPARAM)
 {
-	SetWindowTextW(m_caption.data());
+	SetWindowTextW(m_title.data());
 	GetDlgItem(IDC_LABEL_PROMPT).SetWindowTextW(m_prompt.data());
 
 	m_scintilla.SubclassWindow(GetDlgItem(IDC_SCINTILLA));

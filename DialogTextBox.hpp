@@ -4,7 +4,7 @@
 class CDialogTextBox : public CDialogImpl<CDialogTextBox>
 {
 public:
-	CDialogTextBox(wil::zwstring_view prompt, wil::zwstring_view caption, wil::zwstring_view value);
+	CDialogTextBox(wil::zwstring_view prompt, wil::zwstring_view title, wil::zwstring_view value);
 
 	BEGIN_MSG_MAP_EX(CDialogTextBox)
 		MSG_WM_INITDIALOG(OnInitDialog)
@@ -22,5 +22,5 @@ private:
 
 	CScintilla m_scintilla;
 	fb2k::CCoreDarkModeHooks m_hooks;
-	std::wstring m_caption, m_prompt;
+	std::wstring m_title, m_prompt;
 };

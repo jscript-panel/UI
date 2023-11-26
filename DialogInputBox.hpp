@@ -3,7 +3,7 @@
 class CDialogInputBox : public CDialogImpl<CDialogInputBox>
 {
 public:
-	CDialogInputBox(wil::zwstring_view prompt, wil::zwstring_view caption, wil::zwstring_view value);
+	CDialogInputBox(wil::zwstring_view prompt, wil::zwstring_view title, wil::zwstring_view value);
 
 	BEGIN_MSG_MAP_EX(CDialogInputBox)
 		MSG_WM_INITDIALOG(OnInitDialog)
@@ -20,5 +20,5 @@ private:
 
 	CEdit m_edit_value;
 	fb2k::CCoreDarkModeHooks m_hooks;
-	std::wstring m_caption, m_prompt;
+	std::wstring m_title, m_prompt;
 };

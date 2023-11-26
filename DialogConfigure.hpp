@@ -26,10 +26,10 @@ public:
 private:
 	BOOL OnInitDialog(CWindow, LPARAM);
 	LRESULT OnNotify(int, LPNMHDR pnmh);
-	void InitCaption();
 	void InitControls();
 	void InitFolders();
 	void InitScintilla();
+	void InitTitle();
 	void OnApplyOrOK(uint32_t, int nID, CWindow);
 	void OnCancel(uint32_t, int nID, CWindow);
 	void OnSamples(uint32_t, int, CWindow);
@@ -42,6 +42,6 @@ private:
 	PanelBase* m_panel;
 	WStrings m_basic, m_samples;
 	fb2k::CCoreDarkModeHooks m_hooks;
-	std::string m_caption;
+	std::string m_title;
 	std::wstring m_licenses_folder;
 };

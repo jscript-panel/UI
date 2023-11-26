@@ -23,7 +23,7 @@ CDialogConfigure::CDialogConfigure(PanelBase* panel) : m_panel(panel), m_resizer
 
 BOOL CDialogConfigure::OnInitDialog(CWindow, LPARAM)
 {
-	InitCaption();
+	InitTitle();
 	InitScintilla();
 	InitControls();
 	InitFolders();
@@ -39,23 +39,15 @@ LRESULT CDialogConfigure::OnNotify(int, LPNMHDR pnmh)
 	switch (code)
 	{
 	case Notification::SavePointLeft:
-		pfc::setWindowText(m_hWnd, fmt::format("*{}", m_caption).c_str());
+		pfc::setWindowText(m_hWnd, fmt::format("*{}", m_title).c_str());
 		break;
 	case Notification::SavePointReached:
-		pfc::setWindowText(m_hWnd, m_caption.c_str());
+		pfc::setWindowText(m_hWnd, m_title.c_str());
 		break;
 	}
 
 	SetMsgHandled(FALSE);
 	return 0;
-}
-
-void CDialogConfigure::InitCaption()
-{
-	SetIcon(ui_control::get()->get_main_icon());
-
-	m_caption = fmt::format("{} Configuration (id:{})", Component::name, m_panel->m_id);
-	pfc::setWindowText(m_hWnd, m_caption.c_str());
 }
 
 void CDialogConfigure::InitControls()
@@ -100,6 +92,14 @@ void CDialogConfigure::InitScintilla()
 	m_scintilla.SubclassWindow(GetDlgItem(IDC_SCINTILLA));
 	m_scintilla.Init(mode);
 	m_scintilla.SetCode(m_panel->m_config.m_code);
+}
+
+void CDialogConfigure::InitTitle()
+{
+	SetIcon(ui_control::get()->get_main_icon());
+
+	m_title = fmt::format("{} Configuration (id:{})", Component::name, m_panel->m_id);
+	pfc::setWindowText(m_hWnd, m_title.c_str());
 }
 
 void CDialogConfigure::OnApplyOrOK(uint32_t, int nID, CWindow)
