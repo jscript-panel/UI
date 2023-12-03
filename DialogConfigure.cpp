@@ -236,13 +236,13 @@ void CDialogConfigure::OnTools(uint32_t, int, CWindow)
 		m_scintilla.Export();
 		break;
 	case ID_MENU_DOCS:
-		ShellExecuteW(nullptr, L"open", Component::urls::docs.data(), nullptr, nullptr, SW_SHOW);
+		Utils::execute(Component::urls::docs);
 		break;
 	case ID_MENU_RELEASES:
-		ShellExecuteW(nullptr, L"open", Component::urls::releases.data(), nullptr, nullptr, SW_SHOW);
+		Utils::execute(Component::urls::releases);
 		break;
 	case ID_MENU_LICENSES:
-		ShellExecuteW(nullptr, L"open", m_licenses_folder.data(), nullptr, nullptr, SW_SHOW);
+		Utils::execute(m_licenses_folder);
 		break;
 	case ID_MENU_ABOUT:
 		Component::popup(Component::about);
