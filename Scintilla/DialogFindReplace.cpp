@@ -1,7 +1,7 @@
 #include "stdafx.hpp"
 #include "DialogFindReplace.hpp"
 
-#include "KeyHack.hpp"
+#include "KeyHook.hpp"
 
 namespace
 {
@@ -43,7 +43,7 @@ BOOL CDialogFindReplace::OnInitDialog(CWindow, LPARAM)
 	for (const int id : id_option_map | std::views::keys)
 	{
 		auto wnd = CCheckBox(GetDlgItem(id));
-		PP::subclassThisWindow<KeyHack>(wnd, IDC_BTN_NEXT);
+		PP::subclassThisWindow<KeyHook>(wnd, IDC_BTN_NEXT);
 		m_check_box_map.emplace(id, wnd);
 	}
 
@@ -51,7 +51,7 @@ BOOL CDialogFindReplace::OnInitDialog(CWindow, LPARAM)
 	{
 		auto wnd = GetDlgItem(id);
 		auto cmd = id == IDC_EDIT_FIND || id == IDC_EDIT_REPLACE ? IDC_BTN_NEXT : id;
-		PP::subclassThisWindow<KeyHack>(wnd, cmd);
+		PP::subclassThisWindow<KeyHook>(wnd, cmd);
 		m_window_map.emplace(id, wnd);
 	}
 

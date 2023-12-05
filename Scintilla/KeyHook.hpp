@@ -1,11 +1,11 @@
 #pragma once
 
-class KeyHack : public CWindowImpl<KeyHack, CWindow>
+class KeyHook : public CWindowImpl<KeyHook, CWindow>
 {
 public:
-	KeyHack(int ret_cmd) : m_ret_cmd(ret_cmd) {}
+	KeyHook(int ret_cmd) : m_ret_cmd(ret_cmd) {}
 
-	BEGIN_MSG_MAP_EX(KeyHack)
+	BEGIN_MSG_MAP_EX(KeyHook)
 		MSG_WM_CHAR(OnChar)
 		MSG_WM_KEYDOWN(OnKeyDown)
 	END_MSG_MAP()

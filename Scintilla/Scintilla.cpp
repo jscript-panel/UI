@@ -761,7 +761,7 @@ void CScintilla::SetStyle(wil::zstring_view name, wil::zstring_view value)
 
 void CScintilla::SetStyles()
 {
-	SetWindowTheme(m_hWnd, m_is_dark ? L"DarkMode_Explorer" : nullptr, nullptr);
+	Utils::set_window_theme(m_hWnd, m_is_dark);
 
 	ClearDocumentStyle();
 	StyleResetDefault();
