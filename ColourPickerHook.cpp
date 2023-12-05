@@ -26,8 +26,9 @@ uintptr_t __stdcall ColourPickerHook::HookProc(HWND wnd, uint32_t msg, WPARAM, L
 {
 	if (msg == WM_INITDIALOG)
 	{
-		CHOOSECOLOR* cc = reinterpret_cast<CHOOSECOLOR*>(lp);
-		reinterpret_cast<modal_dialog_scope*>(cc->lCustData)->initialize(pfc::findOwningPopup(wnd));
+		auto cc = reinterpret_cast<CHOOSECOLOR*>(lp);
+		auto scope = reinterpret_cast<modal_dialog_scope*>(cc->lCustData);
+		scope->initialize(pfc::findOwningPopup(wnd));
 
 		const bool is_dark = ui_config_manager::g_is_dark_mode();
 		PP::subclassThisWindow<ColourPickerHook>(wnd, is_dark);
@@ -42,7 +43,7 @@ void ColourPickerHook::UpdateControls(CWindow wnd, bool is_dark)
 
 	for (CWindow child = wnd.GetWindow(GW_CHILD); child.m_hWnd != nullptr; child = child.GetWindow(GW_HWNDNEXT))
 	{
-		SetWindowTheme(child, is_dark ? L"DarkMode_Explorer" : nullptr, nullptr);
+		Utils::set_window_theme(child, is_dark);
 	}
 }
 
