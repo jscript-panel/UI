@@ -1,25 +1,10 @@
 #include "stdafx.hpp"
 #include "PropertyList.hpp"
 
-bool PropertyList::AllowScrollbar(bool) const
-{
-	return true;
-}
-
-bool PropertyList::CanSelectItem(size_t) const
-{
-	return true;
-}
-
 bool PropertyList::GetCellCheckState(size_t row, size_t column) const
 {
 	if (column == 1 && m_items[row].is_bool) return m_items[row].bool_value;
 	return false;
-}
-
-bool PropertyList::GetCellTypeSupported() const
-{
-	return true;
 }
 
 bool PropertyList::GetSubItemText(size_t row, size_t column, pfc::string_base& out) const

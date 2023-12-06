@@ -9,10 +9,7 @@ public:
 		MSG_WM_CREATE(OnCreate)
 	END_MSG_MAP()
 
-	bool AllowScrollbar(bool) const final;
-	bool CanSelectItem(size_t) const final;
 	bool GetCellCheckState(size_t row, size_t column) const final;
-	bool GetCellTypeSupported() const final;
 	bool GetSubItemText(size_t row, size_t column, pfc::string_base& out) const final;
 	bool TableEdit_IsColumnEditable(size_t column) const final;
 	cellType_t GetCellType(size_t row, size_t column) const final;
