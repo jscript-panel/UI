@@ -31,19 +31,19 @@ uintptr_t __stdcall ColourPickerHook::HookProc(HWND wnd, uint32_t msg, WPARAM, L
 		scope->initialize(pfc::findOwningPopup(wnd));
 
 		const bool is_dark = ui_config_manager::g_is_dark_mode();
-		PP::subclassThisWindow<ColourPickerHook>(wnd, is_dark);
-		UpdateControls(wnd, is_dark);
+		auto obj = PP::subclassThisWindow<ColourPickerHook>(wnd, is_dark);
+		obj->UpdateControls();
 	}
 	return 0;
 }
 
-void ColourPickerHook::UpdateControls(CWindow wnd, bool is_dark)
+void ColourPickerHook::UpdateControls()
 {
-	DarkMode::UpdateTitleBar(wnd, is_dark);
+	DarkMode::UpdateTitleBar(m_hWnd, m_is_dark);
 
-	for (CWindow child = wnd.GetWindow(GW_CHILD); child.m_hWnd != nullptr; child = child.GetWindow(GW_HWNDNEXT))
+	for (CWindow child = GetWindow(GW_CHILD); child.m_hWnd != nullptr; child = child.GetWindow(GW_HWNDNEXT))
 	{
-		Utils::set_window_theme(child, is_dark);
+		Utils::set_window_theme(child, m_is_dark);
 	}
 }
 
@@ -52,5 +52,5 @@ void ColourPickerHook::ui_colors_changed()
 	m_is_dark = ui_config_manager::g_is_dark_mode();
 
 	Invalidate();
-	UpdateControls(m_hWnd, m_is_dark);
+	UpdateControls();
 }

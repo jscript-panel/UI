@@ -12,9 +12,9 @@ public:
 	END_MSG_MAP()
 
 	static uintptr_t __stdcall HookProc(HWND wnd, uint32_t msg, WPARAM, LPARAM lp);
-	static void UpdateControls(CWindow wnd, bool is_dark);
 
 	HBRUSH OnCtlColor(CDCHandle dc, CWindow);
+	void UpdateControls();
 
 	void ui_colors_changed() final;
 
