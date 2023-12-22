@@ -329,6 +329,7 @@ public:
 	int PointXFromPosition(Position pos) { return static_cast<int>(Call(Message::PointXFromPosition, 0, pos)); }
 	int PointYFromPosition(Position pos) { return static_cast<int>(Call(Message::PointYFromPosition, 0, pos)); }
 	int PropertyNames(char* names) { return static_cast<int>(CallPointer(Message::PropertyNames, 0, names)); }
+	int SelectionFromPoint(int x, int y) { return static_cast<int>(Call(Message::SelectionFromPoint, x, y)); }
 	int StyleGetFont(int style, char* fontName) { return static_cast<int>(CallPointer(Message::StyleGetFont, style, fontName)); }
 	int StyleGetInvisibleRepresentation(int style, char* representation) { return static_cast<int>(CallPointer(Message::StyleGetInvisibleRepresentation, style, representation)); }
 	int StyleGetSize(int style) { return static_cast<int>(Call(Message::StyleGetSize, style)); }
@@ -389,6 +390,7 @@ public:
 	void CallTipUseStyle(int tabSize) { Call(Message::CallTipUseStyle, tabSize); }
 	void Cancel() { Call(Message::Cancel); }
 	void ChangeInsertion(Position length, const char* text) { CallString(Message::ChangeInsertion, length, text); }
+	void ChangeSelectionMode(SelectionMode selectionMode) { Call(Message::ChangeSelectionMode, static_cast<uintptr_t>(selectionMode)); }
 	void CharLeft() { Call(Message::CharLeft); }
 	void CharLeftExtend() { Call(Message::CharLeftExtend); }
 	void CharLeftRectExtend() { Call(Message::CharLeftRectExtend); }
@@ -648,6 +650,7 @@ public:
 	void SetMouseDwellTime(int periodMilliseconds) { Call(Message::SetMouseDwellTime, periodMilliseconds); }
 	void SetMouseSelectionRectangularSwitch(bool mouseSelectionRectangularSwitch) { Call(Message::SetMouseSelectionRectangularSwitch, mouseSelectionRectangularSwitch); }
 	void SetMouseWheelCaptures(bool captures) { Call(Message::SetMouseWheelCaptures, captures); }
+	void SetMoveExtendsSelection(bool moveExtendsSelection) { Call(Message::SetMoveExtendsSelection, moveExtendsSelection); }
 	void SetMultiPaste(MultiPaste multiPaste) { Call(Message::SetMultiPaste, static_cast<uintptr_t>(multiPaste)); }
 	void SetMultipleSelection(bool multipleSelection) { Call(Message::SetMultipleSelection, multipleSelection); }
 	void SetOvertype(bool overType) { Call(Message::SetOvertype, overType); }
