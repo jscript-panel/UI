@@ -18,8 +18,8 @@ namespace
 		"style.selection.back",
 	};
 
-	cfg_int cfg_int_mode(guids::cfg_int_mode, 0);
-	cfg_int cfg_int_zoom(guids::cfg_int_zoom, 0);
+	cfg_int cfg_int_scintilla_mode(guids::cfg_int_scintilla_mode, 0);
+	cfg_int cfg_int_scintilla_zoom(guids::cfg_int_scintilla_zoom, 0);
 	cfg_string cfg_string_scintilla(guids::cfg_string_scintilla, "");
 }
 
@@ -80,7 +80,7 @@ std::string ScintillaConfig::data_to_string(const Data& data)
 
 int ScintillaConfig::get_mode()
 {
-	int mode = cfg_int_mode;
+	int mode = cfg_int_scintilla_mode;
 	if (mode == 0) // first run
 	{
 		mode = Fb::is_v2() ? 1 : 2;
@@ -91,7 +91,7 @@ int ScintillaConfig::get_mode()
 
 int ScintillaConfig::get_zoom()
 {
-	return cfg_int_zoom;
+	return cfg_int_scintilla_zoom;
 }
 
 void ScintillaConfig::export_to_file(wil::zstring_view path)
@@ -141,10 +141,10 @@ void ScintillaConfig::set_data_item(size_t idx, wil::zstring_view str)
 
 void ScintillaConfig::set_mode(int mode)
 {
-	cfg_int_mode = mode;
+	cfg_int_scintilla_mode = mode;
 }
 
 void ScintillaConfig::set_zoom(int zoom)
 {
-	cfg_int_zoom = zoom;
+	cfg_int_scintilla_zoom = zoom;
 }
