@@ -39,7 +39,7 @@ BOOL CDialogProperties::OnInitDialog(CWindow, LPARAM)
 void CDialogProperties::OnApplyOrOK(uint32_t, int nID, CWindow)
 {
 	m_panel->m_config.m_property_data = m_list.GetData();
-	m_panel->update_script();
+	m_panel->update();
 	m_list.SetData(m_panel->m_config.m_property_data);
 	Component::window_placement.read_from_window(*this);
 

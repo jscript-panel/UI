@@ -106,7 +106,7 @@ void CDialogConfigure::OnApplyOrOK(uint32_t, int nID, CWindow)
 {
 	m_panel->m_config.m_edge_style = m_combo_edge.GetCurSel();
 	m_panel->m_config.m_code = m_scintilla.GetCode();
-	m_panel->update_script();
+	m_panel->update();
 	m_scintilla.SetSavePoint();
 	Component::window_placement.read_from_window(*this);
 
