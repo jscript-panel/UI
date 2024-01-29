@@ -236,10 +236,10 @@ void CDialogConfigure::OnTools(uint32_t, int, CWindow)
 		m_scintilla.Export();
 		break;
 	case ID_MENU_DOCS:
-		Utils::execute(Component::urls::docs);
+		Utils::execute(Component::Docs);
 		break;
 	case ID_MENU_RELEASES:
-		Utils::execute(Component::urls::releases);
+		Utils::execute(Component::Releases);
 		break;
 	case ID_MENU_LICENSES:
 		Utils::execute(m_licenses_folder);
