@@ -9,8 +9,6 @@ namespace
 		{ IDC_BTN_TOOLS, 0, 1, 0, 1 },
 		{ IDC_BTN_STYLE, 0, 1, 0, 1 },
 		{ IDC_BTN_SAMPLES, 0, 1, 0, 1 },
-		{ IDC_LABEL_EDGE, 0, 1, 0, 1 },
-		{ IDC_COMBO_EDGE, 0, 1, 0, 1 },
 		{ IDOK, 1, 1, 1, 1 },
 		{ IDCANCEL, 1, 1, 1, 1 },
 		{ IDC_BTN_APPLY, 1, 1, 1, 1 },
@@ -52,21 +50,6 @@ LRESULT CDialogConfigure::OnNotify(int, LPNMHDR pnmh)
 
 void CDialogConfigure::InitControls()
 {
-	m_combo_edge = GetDlgItem(IDC_COMBO_EDGE);
-	m_combo_edge.AddString(L"None");
-	m_combo_edge.AddString(L"Sunken");
-	m_combo_edge.AddString(L"Grey");
-
-	if (m_panel->m_type == PanelBase::Type::CUIPanel)
-	{
-		m_combo_edge.SetCurSel(m_panel->m_config.m_edge_style);
-	}
-	else
-	{
-		m_combo_edge.SetCurSel(0);
-		m_combo_edge.EnableWindow(FALSE);
-	}
-
 	// not a proper instance if spawned from CUI layout tab, disable Apply button
 	if (!m_panel->GetWnd().IsWindow())
 	{
@@ -104,7 +87,6 @@ void CDialogConfigure::InitTitle()
 
 void CDialogConfigure::OnApplyOrOK(uint32_t, int nID, CWindow)
 {
-	m_panel->m_config.m_edge_style = m_combo_edge.GetCurSel();
 	m_panel->m_config.m_code = m_scintilla.GetCode();
 	m_panel->update();
 	m_scintilla.SetSavePoint();
@@ -226,7 +208,6 @@ void CDialogConfigure::OnTools(uint32_t, int, CWindow)
 	switch (id)
 	{
 	case ID_MENU_RESET:
-		m_combo_edge.SetCurSel(0);
 		m_scintilla.SetCode(m_panel->m_config.get_default_script());
 		break;
 	case ID_MENU_IMPORT:

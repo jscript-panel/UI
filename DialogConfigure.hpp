@@ -36,7 +36,6 @@ private:
 	void OnStyle(uint32_t, int, CWindow);
 	void OnTools(uint32_t, int, CWindow);
 
-	CComboBox m_combo_edge;
 	CDialogResizeHelper m_resizer;
 	CScintilla m_scintilla;
 	PanelBase* m_panel;
