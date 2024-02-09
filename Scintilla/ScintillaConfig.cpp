@@ -25,6 +25,7 @@ namespace
 
 ScintillaConfig g_scintilla_config;
 
+#pragma region static
 ScintillaConfig::Data ScintillaConfig::cfg_string_to_data(wil::zstring_view str)
 {
 	Data data;
@@ -68,16 +69,6 @@ ScintillaConfig::Data ScintillaConfig::preset_to_data(int id)
 	return cfg_string_to_data(str);
 }
 
-std::string ScintillaConfig::data_to_string(const Data& data)
-{
-	fmt::memory_buffer buffer;
-	for (const auto& [name, value] : data)
-	{
-		fmt::format_to(std::back_inserter(buffer), "{}={}{}", name, value, CRLF);
-	}
-	return fmt::to_string(buffer);
-}
-
 int ScintillaConfig::get_mode()
 {
 	int mode = cfg_int_scintilla_mode;
@@ -93,6 +84,27 @@ int ScintillaConfig::get_zoom()
 {
 	return cfg_int_scintilla_zoom;
 }
+
+std::string ScintillaConfig::data_to_string(const Data& data)
+{
+	fmt::memory_buffer buffer;
+	for (const auto& [name, value] : data)
+	{
+		fmt::format_to(std::back_inserter(buffer), "{}={}{}", name, value, CRLF);
+	}
+	return fmt::to_string(buffer);
+}
+
+void ScintillaConfig::set_mode(int mode)
+{
+	cfg_int_scintilla_mode = mode;
+}
+
+void ScintillaConfig::set_zoom(int zoom)
+{
+	cfg_int_scintilla_zoom = zoom;
+}
+#pragma endregion
 
 void ScintillaConfig::export_to_file(wil::zstring_view path)
 {
@@ -137,14 +149,4 @@ void ScintillaConfig::set_data_item(size_t idx, wil::zstring_view str)
 {
 	m_data[idx].second = str;
 	set_data();
-}
-
-void ScintillaConfig::set_mode(int mode)
-{
-	cfg_int_scintilla_mode = mode;
-}
-
-void ScintillaConfig::set_zoom(int zoom)
-{
-	cfg_int_scintilla_zoom = zoom;
 }
