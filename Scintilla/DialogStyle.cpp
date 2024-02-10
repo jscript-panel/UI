@@ -3,21 +3,7 @@
 
 CDialogStyle::CDialogStyle(CScintilla* parent) : m_parent(parent), m_list(this) {}
 
-BOOL CDialogStyle::OnInitDialog(CWindow, LPARAM)
-{
-	m_list.CreateInDialog(*this, IDC_LIST_STYLE);
-	m_list.SetWindowLongPtrW(GWL_EXSTYLE, 0L);
-	m_list.InitializeHeaderCtrl(HDS_NOSIZING);
-	m_list.SetSelectionModeNone();
-
-	const auto dpi = m_list.GetDPI().cx;
-	m_list.AddColumn("Name", MulDiv(150, dpi, 96));
-	m_list.AddColumnAutoWidth("Value");
-
-	m_hooks.AddDialogWithControls(*this);
-	return TRUE;
-}
-
+#pragma region IListControlOwnerDataSource
 bool CDialogStyle::listIsColumnEditable(ctx_t, size_t column)
 {
 	return column == 1;
@@ -55,6 +41,22 @@ void CDialogStyle::listSubItemClicked(ctx_t, size_t row, size_t column)
 	{
 		m_list.TableEdit_Start(row, column);
 	}
+}
+#pragma endregion
+
+BOOL CDialogStyle::OnInitDialog(CWindow, LPARAM)
+{
+	m_list.CreateInDialog(*this, IDC_LIST_STYLE);
+	m_list.SetWindowLongPtrW(GWL_EXSTYLE, 0L);
+	m_list.InitializeHeaderCtrl(HDS_NOSIZING);
+	m_list.SetSelectionModeNone();
+
+	const auto dpi = m_list.GetDPI().cx;
+	m_list.AddColumn("Name", MulDiv(150, dpi, 96));
+	m_list.AddColumnAutoWidth("Value");
+
+	m_hooks.AddDialogWithControls(*this);
+	return TRUE;
 }
 
 void CDialogStyle::OnCancel(uint32_t, int nID, CWindow)
