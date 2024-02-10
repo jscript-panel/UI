@@ -1,6 +1,7 @@
 #include "stdafx.hpp"
 #include "PropertyList.hpp"
 
+#pragma region CListControlComplete
 bool PropertyList::GetCellCheckState(size_t row, size_t column) const
 {
 	if (column == 1 && m_items[row].is_bool) return m_items[row].bool_value;
@@ -38,16 +39,6 @@ PropertyList::cellType_t PropertyList::GetCellType(size_t row, size_t column) co
 		return &PFC_SINGLETON(CListCell_Checkbox);
 	}
 	return &PFC_SINGLETON(CListCell_Text);
-}
-
-int PropertyList::OnCreate(LPCREATESTRUCT)
-{
-	AddColumn("Name", MulDiv(360, m_dpi.cx, 96));
-	AddColumnAutoWidth("Value");
-
-	m_btn_clear = GetParent().GetDlgItem(IDC_BTN_CLEAR);
-	m_btn_export = GetParent().GetDlgItem(IDC_BTN_EXPORT);
-	return 0;
 }
 
 size_t PropertyList::GetItemCount() const
@@ -96,6 +87,7 @@ void PropertyList::TableEdit_SetField(size_t row, size_t column, const char* val
 		ReloadItem(row);
 	}
 }
+#pragma endregion
 
 PanelConfig::PropertyData PropertyList::GetData()
 {
@@ -125,6 +117,16 @@ PanelConfig::PropertyData PropertyList::GetData()
 	}
 
 	return data;
+}
+
+int PropertyList::OnCreate(LPCREATESTRUCT)
+{
+	AddColumn("Name", MulDiv(360, m_dpi.cx, 96));
+	AddColumnAutoWidth("Value");
+
+	m_btn_clear = GetParent().GetDlgItem(IDC_BTN_CLEAR);
+	m_btn_export = GetParent().GetDlgItem(IDC_BTN_EXPORT);
+	return 0;
 }
 
 void PropertyList::OnContextMenu(CPoint pt)
