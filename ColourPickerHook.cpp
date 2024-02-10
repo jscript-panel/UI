@@ -5,6 +5,33 @@
 
 ColourPickerHook::ColourPickerHook(bool is_dark) : m_is_dark(is_dark) {}
 
+#pragma region static
+uintptr_t __stdcall ColourPickerHook::HookProc(HWND wnd, uint32_t msg, WPARAM, LPARAM lp)
+{
+	if (msg == WM_INITDIALOG)
+	{
+		auto cc = reinterpret_cast<CHOOSECOLOR*>(lp);
+		auto scope = reinterpret_cast<modal_dialog_scope*>(cc->lCustData);
+		scope->initialize(pfc::findOwningPopup(wnd));
+
+		const bool is_dark = ui_config_manager::g_is_dark_mode();
+		auto obj = PP::subclassThisWindow<ColourPickerHook>(wnd, is_dark);
+		obj->UpdateControls();
+	}
+	return 0;
+}
+#pragma endregion
+
+#pragma region ui_config_callback_impl
+void ColourPickerHook::ui_colors_changed()
+{
+	m_is_dark = ui_config_manager::g_is_dark_mode();
+
+	Invalidate();
+	UpdateControls();
+}
+#pragma endregion
+
 HBRUSH ColourPickerHook::OnCtlColor(CDCHandle dc, CWindow)
 {
 	if (m_is_dark)
@@ -22,21 +49,6 @@ HBRUSH ColourPickerHook::OnCtlColor(CDCHandle dc, CWindow)
 	return nullptr;
 }
 
-uintptr_t __stdcall ColourPickerHook::HookProc(HWND wnd, uint32_t msg, WPARAM, LPARAM lp)
-{
-	if (msg == WM_INITDIALOG)
-	{
-		auto cc = reinterpret_cast<CHOOSECOLOR*>(lp);
-		auto scope = reinterpret_cast<modal_dialog_scope*>(cc->lCustData);
-		scope->initialize(pfc::findOwningPopup(wnd));
-
-		const bool is_dark = ui_config_manager::g_is_dark_mode();
-		auto obj = PP::subclassThisWindow<ColourPickerHook>(wnd, is_dark);
-		obj->UpdateControls();
-	}
-	return 0;
-}
-
 void ColourPickerHook::UpdateControls()
 {
 	DarkMode::UpdateTitleBar(m_hWnd, m_is_dark);
@@ -45,12 +57,4 @@ void ColourPickerHook::UpdateControls()
 	{
 		Utils::set_window_theme(child, m_is_dark);
 	}
-}
-
-void ColourPickerHook::ui_colors_changed()
-{
-	m_is_dark = ui_config_manager::g_is_dark_mode();
-
-	Invalidate();
-	UpdateControls();
 }
