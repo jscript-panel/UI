@@ -142,6 +142,7 @@ public:
 	Position GetTextLength() { return Call(Message::GetTextLength); }
 	Position GetTextRange(void* tr) { return CallPointer(Message::GetTextRange, 0, tr); }
 	Position GetTextRangeFull(TextRangeFull* tr) { return CallPointer(Message::GetTextRangeFull, 0, tr); }
+	Position GetUndoActionPosition(int action) { return Call(Message::GetUndoActionPosition, action); }
 	Position IndexPositionFromLine(Line line, LineCharacterIndexType lineCharacterIndex) { return Call(Message::IndexPositionFromLine, line, static_cast<intptr_t>(lineCharacterIndex)); }
 	Position IndicatorEnd(int indicator, Position pos) { return Call(Message::IndicatorEnd, indicator, pos); }
 	Position IndicatorStart(int indicator, Position pos) { return Call(Message::IndicatorStart, indicator, pos); }
@@ -307,6 +308,13 @@ public:
 	int GetTabMinimumWidth() { return static_cast<int>(Call(Message::GetTabMinimumWidth)); }
 	int GetTabWidth() { return static_cast<int>(Call(Message::GetTabWidth)); }
 	int GetTag(int tagNumber, char* tagValue) { return static_cast<int>(CallPointer(Message::GetTag, tagNumber, tagValue)); }
+	int GetUndoActionText(int action, char* text) { return static_cast<int>(CallPointer(Message::GetUndoActionText, action, text)); }
+	int GetUndoActionType(int action) { return static_cast<int>(Call(Message::GetUndoActionType, action)); }
+	int GetUndoActions() { return static_cast<int>(Call(Message::GetUndoActions)); }
+	int GetUndoCurrent() { return static_cast<int>(Call(Message::GetUndoCurrent)); }
+	int GetUndoDetach() { return static_cast<int>(Call(Message::GetUndoDetach)); }
+	int GetUndoSavePoint() { return static_cast<int>(Call(Message::GetUndoSavePoint)); }
+	int GetUndoTentative() { return static_cast<int>(Call(Message::GetUndoTentative)); }
 	int GetWhitespaceChars(char* characters) { return static_cast<int>(CallPointer(Message::GetWhitespaceChars, 0, characters)); }
 	int GetWhitespaceSize() { return static_cast<int>(Call(Message::GetWhitespaceSize)); }
 	int GetWordChars(char* characters) { return static_cast<int>(CallPointer(Message::GetWordChars, 0, characters)); }
@@ -390,6 +398,7 @@ public:
 	void CallTipUseStyle(int tabSize) { Call(Message::CallTipUseStyle, tabSize); }
 	void Cancel() { Call(Message::Cancel); }
 	void ChangeInsertion(Position length, const char* text) { CallString(Message::ChangeInsertion, length, text); }
+	void ChangeLastUndoActionText(Position length, const char* text) { CallString(Message::ChangeLastUndoActionText, length, text); }
 	void ChangeSelectionMode(SelectionMode selectionMode) { Call(Message::ChangeSelectionMode, static_cast<uintptr_t>(selectionMode)); }
 	void CharLeft() { Call(Message::CharLeft); }
 	void CharLeftExtend() { Call(Message::CharLeftExtend); }
@@ -539,6 +548,7 @@ public:
 	void ParaUp() { Call(Message::ParaUp); }
 	void ParaUpExtend() { Call(Message::ParaUpExtend); }
 	void Paste() { Call(Message::Paste); }
+	void PushUndoActionType(int type, Position pos) { Call(Message::PushUndoActionType, type, pos); }
 	void RGBAImageSetHeight(int height) { Call(Message::RGBAImageSetHeight, height); }
 	void RGBAImageSetScale(int scalePercent) { Call(Message::RGBAImageSetScale, scalePercent); }
 	void RGBAImageSetWidth(int width) { Call(Message::RGBAImageSetWidth, width); }
@@ -706,6 +716,10 @@ public:
 	void SetTechnology(Technology technology) { Call(Message::SetTechnology, static_cast<uintptr_t>(technology)); }
 	void SetText(const char* text) { CallString(Message::SetText, 0, text); }
 	void SetUndoCollection(bool collectUndo) { Call(Message::SetUndoCollection, collectUndo); }
+	void SetUndoCurrent(int action) { Call(Message::SetUndoCurrent, action); }
+	void SetUndoDetach(int action) { Call(Message::SetUndoDetach, action); }
+	void SetUndoSavePoint(int action) { Call(Message::SetUndoSavePoint, action); }
+	void SetUndoTentative(int action) { Call(Message::SetUndoTentative, action); }
 	void SetUseTabs(bool useTabs) { Call(Message::SetUseTabs, useTabs); }
 	void SetVScrollBar(bool visible) { Call(Message::SetVScrollBar, visible); }
 	void SetViewEOL(bool visible) { Call(Message::SetViewEOL, visible); }
