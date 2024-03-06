@@ -124,7 +124,7 @@ void CDialogConfigure::OnSamples(uint32_t, int, CWindow)
 
 	CRect rect;
 	GetDlgItem(IDC_BTN_SAMPLES).GetWindowRect(&rect);
-	const int id = TrackPopupMenuEx(samples, TPM_TOPALIGN | TPM_RIGHTBUTTON | TPM_NONOTIFY | TPM_RETURNCMD, rect.left, rect.bottom, m_hWnd, nullptr);
+	const int id = TrackPopupMenuEx(samples, TPM_BOTTOMALIGN | TPM_NONOTIFY | TPM_RETURNCMD, rect.left, rect.top, m_hWnd, nullptr);
 	DestroyMenu(samples);
 
 	if (id >= ID_MENU_SAMPLES_BEGIN && id <= ID_MENU_SAMPLES_END)
@@ -164,7 +164,7 @@ void CDialogConfigure::OnStyle(uint32_t, int, CWindow)
 
 		CRect rect;
 		GetDlgItem(IDC_BTN_STYLE).GetWindowRect(&rect);
-		const int id = TrackPopupMenuEx(menu, TPM_RIGHTBUTTON | TPM_NONOTIFY | TPM_RETURNCMD, rect.left, rect.bottom, m_hWnd, nullptr);
+		const int id = TrackPopupMenuEx(menu, TPM_BOTTOMALIGN | TPM_NONOTIFY | TPM_RETURNCMD, rect.left, rect.top, m_hWnd, nullptr);
 		DestroyMenu(menu);
 
 		switch (id)
@@ -202,7 +202,7 @@ void CDialogConfigure::OnTools(uint32_t, int, CWindow)
 
 	CRect rect;
 	GetDlgItem(IDC_BTN_TOOLS).GetWindowRect(&rect);
-	const int id = TrackPopupMenuEx(menu, TPM_RIGHTBUTTON | TPM_NONOTIFY | TPM_RETURNCMD, rect.left, rect.bottom, m_hWnd, nullptr);
+	const int id = TrackPopupMenuEx(menu, TPM_BOTTOMALIGN | TPM_NONOTIFY | TPM_RETURNCMD, rect.left, rect.top, m_hWnd, nullptr);
 	DestroyMenu(menu);
 
 	switch (id)

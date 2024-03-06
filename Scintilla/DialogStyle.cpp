@@ -94,7 +94,7 @@ void CDialogStyle::OnPresetsBnClicked(uint32_t, int, CWindow)
 
 	CRect rect;
 	GetDlgItem(IDC_BTN_PRESETS).GetWindowRect(&rect);
-	const int id = TrackPopupMenuEx(menu, TPM_RIGHTBUTTON | TPM_NONOTIFY | TPM_RETURNCMD, rect.left, rect.bottom, m_hWnd, nullptr);
+	const int id = TrackPopupMenuEx(menu, TPM_BOTTOMALIGN | TPM_NONOTIFY | TPM_RETURNCMD, rect.left, rect.top, m_hWnd, nullptr);
 	DestroyMenu(menu);
 
 	if (id > 0)
