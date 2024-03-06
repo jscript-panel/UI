@@ -26,7 +26,7 @@ BOOL CDialogConfigure::OnInitDialog(CWindow, LPARAM)
 	InitControls();
 	InitFolders();
 
-	Component::window_placement.apply_to_window(*this, false);
+	Component::dialog_position.apply_to_window(*this);
 	return TRUE;
 }
 
@@ -90,7 +90,7 @@ void CDialogConfigure::OnApplyOrOK(uint32_t, int nID, CWindow)
 	m_panel->m_config.m_code = m_scintilla.GetCode();
 	m_panel->update();
 	m_scintilla.SetSavePoint();
-	Component::window_placement.read_from_window(*this);
+	Component::dialog_position.read_from_window(*this);
 
 	if (nID == IDC_BTN_APPLY) return;
 	EndDialog(nID);

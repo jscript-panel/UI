@@ -32,7 +32,7 @@ BOOL CDialogProperties::OnInitDialog(CWindow, LPARAM)
 	m_btn_export = GetDlgItem(IDC_BTN_EXPORT);
 
 	m_hooks.AddDialogWithControls(*this);
-	Component::window_placement.apply_to_window(*this, false);
+	Component::dialog_position.apply_to_window(*this);
 	return TRUE;
 }
 
@@ -41,7 +41,7 @@ void CDialogProperties::OnApplyOrOK(uint32_t, int nID, CWindow)
 	m_panel->m_config.m_property_data = m_list.GetData();
 	m_panel->update();
 	m_list.SetData(m_panel->m_config.m_property_data);
-	Component::window_placement.read_from_window(*this);
+	Component::dialog_position.read_from_window(*this);
 
 	if (nID == IDC_BTN_APPLY) return;
 	EndDialog(nID);
