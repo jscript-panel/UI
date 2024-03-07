@@ -141,7 +141,7 @@ void PropertyList::OnContextMenu(CPoint pt)
 	AppendMenuW(menu, MF_STRING, ID_MENU_REMOVE, L"Remove\tDel");
 
 	pt = GetContextMenuPoint(pt);
-	const int id = TrackPopupMenuEx(menu, TPM_RIGHTBUTTON | TPM_NONOTIFY | TPM_RETURNCMD, pt.x, pt.y, m_hWnd, nullptr);
+	const int id = TrackPopupMenuEx(menu, TPM_NONOTIFY | TPM_RETURNCMD, pt.x, pt.y, m_hWnd, nullptr);
 	DestroyMenu(menu);
 
 	switch (id)
