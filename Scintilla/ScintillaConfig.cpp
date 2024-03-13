@@ -120,17 +120,14 @@ void ScintillaConfig::import_from_file(wil::zstring_view path)
 
 void ScintillaConfig::init_data()
 {
-	if (m_data.empty())
+	if (cfg_string_scintilla.is_empty())
 	{
-		if (cfg_string_scintilla.is_empty())
-		{
-			m_data = get_default_data();
-			set_data();
-		}
-		else
-		{
-			m_data = cfg_string_to_data(cfg_string_scintilla);
-		}
+		m_data = get_default_data();
+		set_data();
+	}
+	else
+	{
+		m_data = cfg_string_to_data(cfg_string_scintilla);
 	}
 }
 
@@ -150,3 +147,5 @@ void ScintillaConfig::set_data_item(size_t idx, wil::zstring_view str)
 	m_data[idx].second = str;
 	set_data();
 }
+
+FB2K_ON_INIT_STAGE([] { g_scintilla_config.init_data(); }, init_stages::after_config_read)

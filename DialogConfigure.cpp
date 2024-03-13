@@ -69,7 +69,6 @@ void CDialogConfigure::InitFolders()
 
 void CDialogConfigure::InitScintilla()
 {
-	g_scintilla_config.init_data();
 	const auto mode = static_cast<CScintilla::Mode>(g_scintilla_config.get_mode());
 
 	m_scintilla.SubclassWindow(GetDlgItem(IDC_SCINTILLA));
