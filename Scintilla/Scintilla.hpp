@@ -70,7 +70,7 @@ private:
 	Range GetSelection();
 	ScintillaConfig::Data GetConfigData();
 	bool IsWordCharacter(char c);
-	std::optional<Colour> ParseHex(wil::zstring_view hex);
+	std::optional<int> ParseHex(wil::zstring_view hex, bool alpha = false);
 	std::string GetCurLineText();
 	std::string GetLineText(Line line);
 	std::string GetSelectedText();

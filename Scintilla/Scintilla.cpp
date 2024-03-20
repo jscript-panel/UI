@@ -238,7 +238,7 @@ bool CScintilla::IsWordCharacter(char c)
 	return word_characters.contains(c);
 }
 
-std::optional<Colour> CScintilla::ParseHex(wil::zstring_view hex)
+std::optional<int> CScintilla::ParseHex(wil::zstring_view hex, bool alpha)
 {
 	const auto hex_digit_to_int = [](int ch)
 		{
@@ -262,7 +262,10 @@ std::optional<Colour> CScintilla::ParseHex(wil::zstring_view hex)
 		const int r = hex_digit_to_int(hex.at(1)) << 4 | hex_digit_to_int(hex.at(2));
 		const int g = hex_digit_to_int(hex.at(3)) << 4 | hex_digit_to_int(hex.at(4));
 		const int b = hex_digit_to_int(hex.at(5)) << 4 | hex_digit_to_int(hex.at(6));
-		return RGB(r, g, b);
+
+		auto c = RGB(r, g, b);
+		if (alpha) c |= 0xff000000;
+		return to_int(c);
 	}
 	return std::nullopt;
 }
@@ -739,21 +742,20 @@ void CScintilla::SetStyle(wil::zstring_view name, wil::zstring_view value)
 	}
 	else
 	{
-		const auto colour = ParseHex(value);
+		const auto colour = ParseHex(value, true);
 		if (colour)
 		{
-			const ColourAlpha colour_alpha = 0xff000000 | colour.value();
 			if (name == "style.caret.fore")
 			{
-				SetElementColour(Element::Caret, colour_alpha);
+				SetElementColour(Element::Caret, *colour);
 			}
 			else if (name == "style.selection.back")
 			{
 				SetSelectionLayer(Layer::UnderText);
-				SetElementColour(Element::SelectionBack, colour_alpha);
-				SetElementColour(Element::SelectionAdditionalBack, colour_alpha);
-				SetElementColour(Element::SelectionSecondaryBack, colour_alpha);
-				SetElementColour(Element::SelectionInactiveBack, colour_alpha);
+				SetElementColour(Element::SelectionBack, *colour);
+				SetElementColour(Element::SelectionAdditionalBack, *colour);
+				SetElementColour(Element::SelectionSecondaryBack, *colour);
+				SetElementColour(Element::SelectionInactiveBack, *colour);
 			}
 		}
 	}
