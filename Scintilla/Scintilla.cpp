@@ -732,8 +732,8 @@ void CScintilla::SetStyle(wil::zstring_view name, wil::zstring_view value)
 		{
 			if (style.font.length()) StyleSetFont(id, style.font.c_str());
 			if (style.size > 0) StyleSetSize(id, style.size);
-			if (style.fore) StyleSetFore(id, style.fore.value());
-			if (style.back) StyleSetBack(id, style.back.value());
+			if (style.fore) StyleSetFore(id, *style.fore);
+			if (style.back) StyleSetBack(id, *style.back);
 			if (style.bold) StyleSetBold(id, style.bold);
 			if (style.italic) StyleSetItalic(id, style.italic);
 			StyleSetCheckMonospaced(id, true);
