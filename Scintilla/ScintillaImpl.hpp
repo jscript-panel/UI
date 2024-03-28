@@ -5,7 +5,7 @@
 
 using namespace Scintilla;
 
-template <class T>
+template <typename T>
 class CScintillaImpl : public CWindowImpl<T, CWindow, CControlWinTraits>
 {
 public:
