@@ -65,7 +65,7 @@ ScintillaConfig::Data ScintillaConfig::get_default_data()
 
 ScintillaConfig::Data ScintillaConfig::preset_to_data(int id)
 {
-	const std::string str = Component::get_resource_text(id);
+	const std::string str = js::get_resource_text(id);
 	return cfg_string_to_data(str);
 }
 

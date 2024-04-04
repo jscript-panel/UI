@@ -587,11 +587,11 @@ void CScintilla::OpenStyleDialog()
 
 void CScintilla::ReadAPIs()
 {
-	std::string api_text = Component::get_resource_text(IDR_JS_API);
-	api_text += Component::get_resource_text(IDR_FB2K_API);
+	std::string api_text = js::get_resource_text(IDR_JS_API);
+	api_text += js::get_resource_text(IDR_FB2K_API);
 	if (Fb::is_v2())
 	{
-		api_text += Component::get_resource_text(IDR_FB2K_V2_API);
+		api_text += js::get_resource_text(IDR_FB2K_V2_API);
 	}
 
 	for (auto&& text : js::split_string(api_text, CRLF))
