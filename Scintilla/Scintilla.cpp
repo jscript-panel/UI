@@ -265,7 +265,7 @@ std::optional<int> CScintilla::ParseHex(wil::zstring_view hex, bool alpha)
 
 		auto c = RGB(r, g, b);
 		if (alpha) c |= 0xff000000;
-		return to_int(c);
+		return js::to_int(c);
 	}
 	return std::nullopt;
 }
@@ -594,7 +594,7 @@ void CScintilla::ReadAPIs()
 		api_text += Component::get_resource_text(IDR_FB2K_V2_API);
 	}
 
-	for (auto&& text : split_string(api_text, CRLF))
+	for (auto&& text : js::split_string(api_text, CRLF))
 	{
 		if (text.empty()) continue;
 		API item = { text, std::min({text.find('('), text.find(' '), text.length()}) };
@@ -714,9 +714,9 @@ void CScintilla::SetStyle(wil::zstring_view name, wil::zstring_view value)
 	{
 		EditorStyle style;
 
-		for (auto&& str : split_string(value, ","))
+		for (auto&& str : js::split_string(value, ","))
 		{
-			Strings tmp = split_string(str, ":");
+			Strings tmp = js::split_string(str, ":");
 			const std::string primary = tmp[0];
 			const std::string secondary = tmp.size() == 2 ? tmp[1] : "";
 

@@ -31,9 +31,9 @@ ScintillaConfig::Data ScintillaConfig::cfg_string_to_data(wil::zstring_view str)
 	Data data;
 	StringMap map;
 
-	for (auto&& line : split_string(str, CRLF))
+	for (auto&& line : js::split_string(str, CRLF))
 	{
-		const Strings tmp = split_string(line, "=");
+		const Strings tmp = js::split_string(line, "=");
 		if (tmp.size() == 2)
 		{
 			map.emplace(tmp[0], tmp[1]);

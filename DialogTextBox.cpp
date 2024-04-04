@@ -10,7 +10,7 @@ BOOL CDialogTextBox::OnInitDialog(CWindow, LPARAM)
 
 	m_scintilla.SubclassWindow(GetDlgItem(IDC_SCINTILLA));
 	m_scintilla.Init(CScintilla::Mode::PlainText);
-	m_scintilla.SetCode(from_wide(m_value));
+	m_scintilla.SetCode(js::from_wide(m_value));
 
 	m_hooks.AddDialogWithControls(*this);
 	CenterWindow();
@@ -19,6 +19,6 @@ BOOL CDialogTextBox::OnInitDialog(CWindow, LPARAM)
 
 void CDialogTextBox::OnCloseCmd(uint32_t, int nID, CWindow)
 {
-	m_value = to_wide(m_scintilla.GetCode());
+	m_value = js::to_wide(m_scintilla.GetCode());
 	EndDialog(nID);
 }

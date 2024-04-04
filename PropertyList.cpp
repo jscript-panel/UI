@@ -102,7 +102,7 @@ PanelConfig::PropertyData PropertyList::GetData()
 		}
 		else
 		{
-			const std::wstring wstr = to_wide(item.value);
+			const std::wstring wstr = js::to_wide(item.value);
 			auto src = _variant_t(wstr.data());
 
 			if (!item.is_string && SUCCEEDED(VariantChangeType(&dst, &src, 0, VT_R8)))
@@ -173,18 +173,18 @@ void PropertyList::SetData(const PanelConfig::PropertyData& data)
 		if (value.vt == VT_BOOL)
 		{
 			item.is_bool = true;
-			item.bool_value = to_bool(value.boolVal);
+			item.bool_value = js::to_bool(value.boolVal);
 		}
 		else if (value.vt == VT_BSTR)
 		{
 			item.is_string = true;
-			item.value = from_wide(value.bstrVal);
+			item.value = js::from_wide(value.bstrVal);
 		}
 		else
 		{
 			_variant_t var;
 			var.ChangeType(VT_BSTR, &value);
-			item.value = from_wide(var.bstrVal);
+			item.value = js::from_wide(var.bstrVal);
 		}
 
 		m_items.emplace_back(item);
