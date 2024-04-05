@@ -594,10 +594,14 @@ void CScintilla::ReadAPIs()
 		api_text += js::get_resource_text(IDR_FB2K_V2_API);
 	}
 
-	for (auto&& text : js::split_string(api_text, CRLF))
+	for (auto&& line : js::split_string(api_text, CRLF))
 	{
-		if (text.empty()) continue;
-		API item = { text, std::min({text.find('('), text.find(' '), text.length()}) };
+		if (line.empty()) continue;
+
+		API item;
+		item.text = line;
+		item.len = std::min({ line.find('('), line.find(' '), line.length() });
+
 		m_apis.emplace_back(item);
 	}
 
