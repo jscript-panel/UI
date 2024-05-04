@@ -1,6 +1,6 @@
 #pragma once
 
-class ColourPickerHook : public CWindowImpl<ColourPickerHook>, ui_config_callback_impl
+class ColourPickerHook : public CWindowImpl<ColourPickerHook>, public ui_config_callback_impl
 {
 public:
 	ColourPickerHook(bool is_dark);
