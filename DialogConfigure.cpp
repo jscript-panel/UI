@@ -86,22 +86,27 @@ void CDialogConfigure::InitTitle()
 
 void CDialogConfigure::OnApplyOrOK(uint32_t, int nID, CWindow)
 {
-	m_panel->m_config.m_code = m_scintilla.GetCode();
-	m_panel->update();
-	m_scintilla.SetSavePoint();
 	Component::dialog_position.read_from_window(*this);
 
-	if (nID == IDC_BTN_APPLY) return;
-	EndDialog(nID);
+	m_panel->m_config.m_code = m_scintilla.GetCode();
+	m_panel->update();
+
+	if (nID == IDC_BTN_APPLY)
+	{
+		m_scintilla.SetSavePoint();
+	}
+	else if (nID == IDOK)
+	{
+		EndDialog(nID);
+	}
 }
 
 void CDialogConfigure::OnCancel(uint32_t, int nID, CWindow)
 {
-	if (m_scintilla.GetModify() && popup_message_v3::get()->messageBox(m_hWnd, "Unsaved changes will be lost. Are you sure?", Component::name.data(), MB_YESNO) != IDYES)
+	if (!m_scintilla.GetModify() || popup_message_v3::get()->messageBox(m_hWnd, "Unsaved changes will be lost. Are you sure?", Component::name.data(), MB_YESNO) == IDYES)
 	{
-		return;
+		EndDialog(nID);
 	}
-	EndDialog(nID);
 }
 
 void CDialogConfigure::OnSamples(uint32_t, int, CWindow)

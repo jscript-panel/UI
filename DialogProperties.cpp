@@ -38,13 +38,19 @@ BOOL CDialogProperties::OnInitDialog(CWindow, LPARAM)
 
 void CDialogProperties::OnApplyOrOK(uint32_t, int nID, CWindow)
 {
-	m_panel->m_config.m_property_data = m_list.GetData();
-	m_panel->update();
-	m_list.SetData(m_panel->m_config.m_property_data);
 	Component::dialog_position.read_from_window(*this);
 
-	if (nID == IDC_BTN_APPLY) return;
-	EndDialog(nID);
+	m_panel->m_config.m_property_data = m_list.GetData();
+	m_panel->update();
+
+	if (nID == IDC_BTN_APPLY)
+	{
+		m_list.SetData(m_panel->m_config.m_property_data);
+	}
+	else if (nID == IDOK)
+	{
+		EndDialog(nID);
+	}
 }
 
 void CDialogProperties::OnCancel(uint32_t, int nID, CWindow)
