@@ -69,9 +69,9 @@ ScintillaConfig::Data ScintillaConfig::preset_to_data(int id)
 	return cfg_string_to_data(str);
 }
 
-int ScintillaConfig::get_mode()
+int64_t ScintillaConfig::get_mode()
 {
-	int mode = cfg_int_scintilla_mode;
+	int64_t mode = cfg_int_scintilla_mode;
 	if (mode == 0) // first run
 	{
 		mode = 1; // auto
@@ -80,7 +80,7 @@ int ScintillaConfig::get_mode()
 	return mode;
 }
 
-int ScintillaConfig::get_zoom()
+int64_t ScintillaConfig::get_zoom()
 {
 	return cfg_int_scintilla_zoom;
 }
@@ -95,12 +95,12 @@ std::string ScintillaConfig::data_to_string(const Data& data)
 	return fmt::to_string(buffer);
 }
 
-void ScintillaConfig::set_mode(int mode)
+void ScintillaConfig::set_mode(int64_t mode)
 {
 	cfg_int_scintilla_mode = mode;
 }
 
-void ScintillaConfig::set_zoom(int zoom)
+void ScintillaConfig::set_zoom(int64_t zoom)
 {
 	cfg_int_scintilla_zoom = zoom;
 }
@@ -114,20 +114,20 @@ void ScintillaConfig::export_to_file(wil::zstring_view path)
 
 void ScintillaConfig::import_from_file(wil::zstring_view path)
 {
-	cfg_string_scintilla = FileHelper(path).read();
-	m_data = cfg_string_to_data(cfg_string_scintilla);
+	cfg_string_scintilla = FileHelper(path).read().c_str();
+	m_data = cfg_string_to_data(cfg_string_scintilla.get());
 }
 
 void ScintillaConfig::init_data()
 {
-	if (cfg_string_scintilla.is_empty())
+	if (cfg_string_scintilla.get().is_empty())
 	{
 		m_data = get_default_data();
 		set_data();
 	}
 	else
 	{
-		m_data = cfg_string_to_data(cfg_string_scintilla);
+		m_data = cfg_string_to_data(cfg_string_scintilla.get());
 	}
 }
 
@@ -139,7 +139,7 @@ void ScintillaConfig::load_preset(int id)
 
 void ScintillaConfig::set_data()
 {
-	cfg_string_scintilla = data_to_string(m_data);
+	cfg_string_scintilla = data_to_string(m_data).c_str();
 }
 
 void ScintillaConfig::set_data_item(size_t idx, wil::zstring_view str)

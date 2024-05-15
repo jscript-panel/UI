@@ -508,7 +508,7 @@ void CScintilla::InitMargins()
 
 void CScintilla::InitZoom()
 {
-	const int zoom = g_scintilla_config.get_zoom();
+	const auto zoom = js::to_int(g_scintilla_config.get_zoom());
 	if (zoom != 0)
 	{
 		SetZoom(zoom);

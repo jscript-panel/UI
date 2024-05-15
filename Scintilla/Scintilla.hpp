@@ -7,7 +7,7 @@ class CDialogFindReplace;
 class CScintilla : public CScintillaImpl<CScintilla>, public ui_config_callback_impl
 {
 public:
-	enum class Mode
+	enum class Mode : int64_t
 	{
 		PlainText,
 		JavaScriptAuto,
