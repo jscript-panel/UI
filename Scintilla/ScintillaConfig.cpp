@@ -74,7 +74,7 @@ int ScintillaConfig::get_mode()
 	int mode = cfg_int_scintilla_mode;
 	if (mode == 0) // first run
 	{
-		mode = Fb::is_v2() ? 1 : 2;
+		mode = 1; // auto
 		set_mode(mode);
 	}
 	return mode;

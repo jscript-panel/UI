@@ -589,10 +589,6 @@ void CScintilla::ReadAPIs()
 {
 	std::string api_text = js::get_resource_text(IDR_JS_API);
 	api_text += js::get_resource_text(IDR_FB2K_API);
-	if (Fb::is_v2())
-	{
-		api_text += js::get_resource_text(IDR_FB2K_V2_API);
-	}
 
 	for (auto&& line : js::split_string(api_text, CRLF))
 	{

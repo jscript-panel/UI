@@ -145,48 +145,41 @@ void CDialogConfigure::OnSamples(uint32_t, int, CWindow)
 
 void CDialogConfigure::OnStyle(uint32_t, int, CWindow)
 {
-	if (Fb::is_v2())
+	uint32_t check{}, edit_flag{};
+	if (m_scintilla.m_mode == CScintilla::Mode::JavaScriptCustom)
 	{
-		uint32_t check{}, edit_flag{};
-		if (m_scintilla.m_mode == CScintilla::Mode::JavaScriptCustom)
-		{
-			check = ID_MENU_STYLE_CUSTOM;
-			edit_flag = MF_STRING;
-		}
-		else
-		{
-			check = ID_MENU_STYLE_AUTO;
-			edit_flag = MF_GRAYED;
-		}
-
-		HMENU menu = CreatePopupMenu();
-		AppendMenuW(menu, MF_STRING, ID_MENU_STYLE_AUTO, L"Auto");
-		AppendMenuW(menu, MF_STRING, ID_MENU_STYLE_CUSTOM, L"Custom");
-		AppendMenuW(menu, MF_SEPARATOR, 0, 0);
-		AppendMenuW(menu, edit_flag, ID_MENU_STYLE_EDIT, L"Edit...");
-		CheckMenuRadioItem(menu, ID_MENU_STYLE_AUTO, ID_MENU_STYLE_CUSTOM, check, MF_BYCOMMAND);
-
-		CRect rect;
-		GetDlgItem(IDC_BTN_STYLE).GetWindowRect(&rect);
-		const int id = TrackPopupMenuEx(menu, TPM_BOTTOMALIGN | TPM_NONOTIFY | TPM_RETURNCMD, rect.left, rect.top, m_hWnd, nullptr);
-		DestroyMenu(menu);
-
-		switch (id)
-		{
-		case ID_MENU_STYLE_AUTO:
-			m_scintilla.SetMode(CScintilla::Mode::JavaScriptAuto);
-			break;
-		case ID_MENU_STYLE_CUSTOM:
-			m_scintilla.SetMode(CScintilla::Mode::JavaScriptCustom);
-			break;
-		case ID_MENU_STYLE_EDIT:
-			m_scintilla.OpenStyleDialog();
-			break;
-		}
+		check = ID_MENU_STYLE_CUSTOM;
+		edit_flag = MF_STRING;
 	}
 	else
 	{
+		check = ID_MENU_STYLE_AUTO;
+		edit_flag = MF_GRAYED;
+	}
+
+	HMENU menu = CreatePopupMenu();
+	AppendMenuW(menu, MF_STRING, ID_MENU_STYLE_AUTO, L"Auto");
+	AppendMenuW(menu, MF_STRING, ID_MENU_STYLE_CUSTOM, L"Custom");
+	AppendMenuW(menu, MF_SEPARATOR, 0, 0);
+	AppendMenuW(menu, edit_flag, ID_MENU_STYLE_EDIT, L"Edit...");
+	CheckMenuRadioItem(menu, ID_MENU_STYLE_AUTO, ID_MENU_STYLE_CUSTOM, check, MF_BYCOMMAND);
+
+	CRect rect;
+	GetDlgItem(IDC_BTN_STYLE).GetWindowRect(&rect);
+	const int id = TrackPopupMenuEx(menu, TPM_BOTTOMALIGN | TPM_NONOTIFY | TPM_RETURNCMD, rect.left, rect.top, m_hWnd, nullptr);
+	DestroyMenu(menu);
+
+	switch (id)
+	{
+	case ID_MENU_STYLE_AUTO:
+		m_scintilla.SetMode(CScintilla::Mode::JavaScriptAuto);
+		break;
+	case ID_MENU_STYLE_CUSTOM:
+		m_scintilla.SetMode(CScintilla::Mode::JavaScriptCustom);
+		break;
+	case ID_MENU_STYLE_EDIT:
 		m_scintilla.OpenStyleDialog();
+		break;
 	}
 }
 
