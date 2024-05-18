@@ -194,7 +194,7 @@ Position CScintilla::GetCaretInLine()
 
 ScintillaConfig::Data CScintilla::GetConfigData()
 {
-	if (m_mode == Mode::JavaScriptCustom)
+	if (m_mode == ScintillaConfig::Mode::JavaScriptCustom)
 	{
 		return g_scintilla_config.m_data;
 	}
@@ -317,7 +317,7 @@ std::string CScintilla::GetWordStart(wil::zstring_view text, Position current)
 
 void CScintilla::AutoMarginWidth()
 {
-	if (m_mode == Mode::PlainText) return;
+	if (m_mode == ScintillaConfig::Mode::PlainText) return;
 
 	const Line line_count = GetLineCount() * 10;
 	const int margin_width = TextWidth(STYLE_LINENUMBER, pfc::format_int(line_count));
@@ -427,7 +427,7 @@ void CScintilla::Import()
 	}
 }
 
-void CScintilla::Init(Mode mode)
+void CScintilla::Init(ScintillaConfig::Mode mode)
 {
 	m_mode = mode;
 	m_is_dark = ui_config_manager::g_is_dark_mode();
@@ -457,7 +457,7 @@ void CScintilla::Init(Mode mode)
 
 void CScintilla::InitJS()
 {
-	if (m_mode == Mode::PlainText) return;
+	if (m_mode == ScintillaConfig::Mode::PlainText) return;
 
 	static constexpr auto js_keywords =
 		"break case catch continue default delete do else false for function if in "
@@ -563,7 +563,7 @@ void CScintilla::OpenFindDialog(wil::zstring_view selected_text)
 
 void CScintilla::OpenGotoDialog()
 {
-	if (m_mode == Mode::PlainText) return;
+	if (m_mode == ScintillaConfig::Mode::PlainText) return;
 
 	CDialogGoto dlg(GetCurrentLineNumber() + 1);
 	if (dlg.DoModal(m_hWnd) == IDOK)
@@ -655,10 +655,10 @@ void CScintilla::SetCode(wil::zstring_view code)
 	TrackWidth();
 }
 
-void CScintilla::SetMode(Mode mode)
+void CScintilla::SetMode(ScintillaConfig::Mode mode)
 {
 	m_mode = mode;
-	g_scintilla_config.set_mode(std::to_underlying(m_mode));
+	g_scintilla_config.set_mode(m_mode);
 	SetStyles();
 }
 
@@ -716,9 +716,9 @@ void CScintilla::SetStyle(wil::zstring_view name, wil::zstring_view value)
 
 		for (auto&& str : js::split_string(value, ","))
 		{
-			Strings tmp = js::split_string(str, ":");
-			const std::string primary = tmp[0];
-			const std::string secondary = tmp.size() == 2 ? tmp[1] : "";
+			const auto parts = js::split_string(str, ":");
+			const std::string primary = parts[0];
+			const std::string secondary = parts.size() == 2 ? parts[1] : "";
 
 			if (primary == "font") style.font = secondary;
 			else if (primary == "size" && pfc::string_is_numeric(secondary.c_str())) style.size = std::stoi(secondary);

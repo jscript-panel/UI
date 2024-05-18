@@ -69,7 +69,7 @@ void CDialogConfigure::InitFolders()
 
 void CDialogConfigure::InitScintilla()
 {
-	const auto mode = static_cast<CScintilla::Mode>(g_scintilla_config.get_mode());
+	const auto mode = g_scintilla_config.get_mode();
 
 	m_scintilla.SubclassWindow(GetDlgItem(IDC_SCINTILLA));
 	m_scintilla.Init(mode);
@@ -146,7 +146,7 @@ void CDialogConfigure::OnSamples(uint32_t, int, CWindow)
 void CDialogConfigure::OnStyle(uint32_t, int, CWindow)
 {
 	uint32_t check{}, edit_flag{};
-	if (m_scintilla.m_mode == CScintilla::Mode::JavaScriptCustom)
+	if (m_scintilla.m_mode == ScintillaConfig::Mode::JavaScriptCustom)
 	{
 		check = ID_MENU_STYLE_CUSTOM;
 		edit_flag = MF_STRING;
@@ -172,10 +172,10 @@ void CDialogConfigure::OnStyle(uint32_t, int, CWindow)
 	switch (id)
 	{
 	case ID_MENU_STYLE_AUTO:
-		m_scintilla.SetMode(CScintilla::Mode::JavaScriptAuto);
+		m_scintilla.SetMode(ScintillaConfig::Mode::JavaScriptAuto);
 		break;
 	case ID_MENU_STYLE_CUSTOM:
-		m_scintilla.SetMode(CScintilla::Mode::JavaScriptCustom);
+		m_scintilla.SetMode(ScintillaConfig::Mode::JavaScriptCustom);
 		break;
 	case ID_MENU_STYLE_EDIT:
 		m_scintilla.OpenStyleDialog();

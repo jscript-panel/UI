@@ -9,7 +9,7 @@ BOOL CDialogTextBox::OnInitDialog(CWindow, LPARAM)
 	GetDlgItem(IDC_LABEL_PROMPT).SetWindowTextW(m_prompt.data());
 
 	m_scintilla.SubclassWindow(GetDlgItem(IDC_SCINTILLA));
-	m_scintilla.Init(CScintilla::Mode::PlainText);
+	m_scintilla.Init(ScintillaConfig::Mode::PlainText);
 	m_scintilla.SetCode(js::from_wide(m_value));
 
 	m_hooks.AddDialogWithControls(*this);

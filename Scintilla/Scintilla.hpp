@@ -7,13 +7,6 @@ class CDialogFindReplace;
 class CScintilla : public CScintillaImpl<CScintilla>, public ui_config_callback_impl
 {
 public:
-	enum class Mode : int64_t
-	{
-		PlainText,
-		JavaScriptAuto,
-		JavaScriptCustom,
-	};
-
 	BEGIN_MSG_MAP_EX(CScintilla)
 		MSG_WM_KEYDOWN(OnKeyDown)
 		REFLECTED_NOTIFY_CODE_HANDLER_EX(static_cast<uint32_t>(Notification::UpdateUI), OnUpdateUI)
@@ -26,18 +19,18 @@ public:
 	std::string GetCode();
 	void Export();
 	void Import();
-	void Init(Mode mode);
+	void Init(ScintillaConfig::Mode mode);
 	void OpenStyleDialog();
 	void Replace();
 	void ReplaceAll();
 	void SetCode(wil::zstring_view code);
-	void SetMode(Mode mode);
+	void SetMode(ScintillaConfig::Mode mode);
 	void SetStyles();
 
 	// ui_config_callback_impl
 	void ui_colors_changed() final;
 
-	Mode m_mode{};
+	ScintillaConfig::Mode m_mode{};
 
 private:
 	struct API

@@ -69,12 +69,12 @@ ScintillaConfig::Data ScintillaConfig::preset_to_data(int id)
 	return cfg_string_to_data(str);
 }
 
-int64_t ScintillaConfig::get_mode()
+ScintillaConfig::Mode ScintillaConfig::get_mode()
 {
-	int64_t mode = cfg_int_scintilla_mode;
-	if (mode == 0) // first run
+	auto mode = static_cast<Mode>(cfg_int_scintilla_mode.get());
+	if (mode == Mode::PlainText)
 	{
-		mode = 1; // auto
+		mode = Mode::JavaScriptAuto;
 		set_mode(mode);
 	}
 	return mode;
@@ -95,9 +95,9 @@ std::string ScintillaConfig::data_to_string(const Data& data)
 	return fmt::to_string(buffer);
 }
 
-void ScintillaConfig::set_mode(int64_t mode)
+void ScintillaConfig::set_mode(Mode mode)
 {
-	cfg_int_scintilla_mode = mode;
+	cfg_int_scintilla_mode = std::to_underlying(mode);
 }
 
 void ScintillaConfig::set_zoom(int64_t zoom)
