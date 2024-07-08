@@ -89,7 +89,7 @@ void CDialogConfigure::OnApplyOrOK(uint32_t, int nID, CWindow)
 	Component::dialog_position.read_from_window(*this);
 
 	m_panel->m_config.m_code = m_scintilla.GetCode();
-	m_panel->update();
+	m_panel->Update();
 
 	if (nID == IDC_BTN_APPLY)
 	{
