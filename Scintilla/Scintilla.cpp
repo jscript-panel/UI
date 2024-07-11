@@ -240,28 +240,11 @@ bool CScintilla::IsWordCharacter(char c)
 
 std::optional<int> CScintilla::ParseHex(wil::zstring_view hex, bool alpha)
 {
-	const auto hex_digit_to_int = [](int ch)
-		{
-			if (ch >= '0' && ch <= '9')
-			{
-				return ch - '0';
-			}
-			else if (ch >= 'A' && ch <= 'F')
-			{
-				return ch - 'A' + 10;
-			}
-			else if (ch >= 'a' && ch <= 'f')
-			{
-				return ch - 'a' + 10;
-			}
-			return 0;
-		};
-
 	if (hex.length() == 7 && hex.at(0) == '#')
 	{
-		const int r = hex_digit_to_int(hex.at(1)) << 4 | hex_digit_to_int(hex.at(2));
-		const int g = hex_digit_to_int(hex.at(3)) << 4 | hex_digit_to_int(hex.at(4));
-		const int b = hex_digit_to_int(hex.at(5)) << 4 | hex_digit_to_int(hex.at(6));
+		const int r = js::hex_digit_to_int(hex.at(1)) << 4 | js::hex_digit_to_int(hex.at(2));
+		const int g = js::hex_digit_to_int(hex.at(3)) << 4 | js::hex_digit_to_int(hex.at(4));
+		const int b = js::hex_digit_to_int(hex.at(5)) << 4 | js::hex_digit_to_int(hex.at(6));
 
 		auto c = RGB(r, g, b);
 		if (alpha) c |= 0xff000000;
