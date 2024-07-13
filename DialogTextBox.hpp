@@ -4,7 +4,7 @@
 class CDialogTextBox : public CDialogImpl<CDialogTextBox>
 {
 public:
-	CDialogTextBox(wil::zwstring_view prompt, wil::zwstring_view title, wil::zwstring_view value);
+	CDialogTextBox(std::wstring_view prompt, std::wstring_view title, std::wstring_view value);
 
 	BEGIN_MSG_MAP_EX(CDialogTextBox)
 		MSG_WM_INITDIALOG(OnInitDialog)

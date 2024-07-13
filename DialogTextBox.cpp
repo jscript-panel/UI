@@ -1,7 +1,7 @@
 #include "stdafx.hpp"
 #include "DialogTextBox.hpp"
 
-CDialogTextBox::CDialogTextBox(wil::zwstring_view prompt, wil::zwstring_view title, wil::zwstring_view value) : m_prompt(prompt), m_title(title), m_value(value) {}
+CDialogTextBox::CDialogTextBox(std::wstring_view prompt, std::wstring_view title, std::wstring_view value) : m_prompt(prompt), m_title(title), m_value(value) {}
 
 BOOL CDialogTextBox::OnInitDialog(CWindow, LPARAM)
 {

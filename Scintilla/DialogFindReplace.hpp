@@ -26,7 +26,7 @@ public:
 
 	enum { IDD = IDD_DIALOG_FIND_REPLACE };
 
-	void Update(Mode mode, wil::zstring_view selected_text);
+	void Update(Mode mode, std::string_view selected_text);
 
 	FindOption m_flags{};
 	std::string m_find_text, m_replace_text;

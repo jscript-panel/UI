@@ -119,7 +119,7 @@ void CDialogFindReplace::OnReplaceTextChange(uint32_t, int, CWindow)
 	m_replace_text = pfc::getWindowText(m_window_map.at(IDC_EDIT_REPLACE));
 }
 
-void CDialogFindReplace::Update(Mode mode, wil::zstring_view selected_text)
+void CDialogFindReplace::Update(Mode mode, std::string_view selected_text)
 {
 	const bool find = mode == Mode::Find;
 	const int sw = find ? SW_HIDE : SW_SHOW;

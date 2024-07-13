@@ -26,7 +26,7 @@ namespace
 ScintillaConfig g_scintilla_config;
 
 #pragma region static
-ScintillaConfig::Data ScintillaConfig::cfg_string_to_data(wil::zstring_view str)
+ScintillaConfig::Data ScintillaConfig::cfg_string_to_data(std::string_view str)
 {
 	Data data;
 	StringMap map;
@@ -106,13 +106,13 @@ void ScintillaConfig::set_zoom(int64_t zoom)
 }
 #pragma endregion
 
-void ScintillaConfig::export_to_file(wil::zstring_view path)
+void ScintillaConfig::export_to_file(std::string_view path)
 {
 	const std::string str = data_to_string(m_data);
 	FileHelper(path).write(str);
 }
 
-void ScintillaConfig::import_from_file(wil::zstring_view path)
+void ScintillaConfig::import_from_file(std::string_view path)
 {
 	cfg_string_scintilla = FileHelper(path).read().c_str();
 	m_data = cfg_string_to_data(cfg_string_scintilla.get());
@@ -142,7 +142,7 @@ void ScintillaConfig::set_data()
 	cfg_string_scintilla = data_to_string(m_data).c_str();
 }
 
-void ScintillaConfig::set_data_item(size_t idx, wil::zstring_view str)
+void ScintillaConfig::set_data_item(size_t idx, std::string_view str)
 {
 	m_data[idx].second = str;
 	set_data();

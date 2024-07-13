@@ -3,7 +3,7 @@
 class CDialogInputBox : public CDialogImpl<CDialogInputBox>
 {
 public:
-	CDialogInputBox(wil::zwstring_view prompt, wil::zwstring_view title, wil::zwstring_view value);
+	CDialogInputBox(std::wstring_view prompt, std::wstring_view title, std::wstring_view value);
 
 	BEGIN_MSG_MAP_EX(CDialogInputBox)
 		MSG_WM_INITDIALOG(OnInitDialog)

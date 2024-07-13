@@ -23,7 +23,7 @@ public:
 	void OpenStyleDialog();
 	void Replace();
 	void ReplaceAll();
-	void SetCode(wil::zstring_view code);
+	void SetCode(std::string_view code);
 	void SetMode(ScintillaConfig::Mode mode);
 	void SetStyles();
 
@@ -63,11 +63,11 @@ private:
 	Range GetSelection();
 	ScintillaConfig::Data GetConfigData();
 	bool IsWordCharacter(char c);
-	std::optional<int> ParseHex(wil::zstring_view hex, bool alpha = false);
+	std::optional<int> ParseHex(std::string_view hex, bool alpha = false);
 	std::string GetCurLineText();
 	std::string GetLineText(Line line);
 	std::string GetSelectedText();
-	std::string GetWordStart(wil::zstring_view text, Position current);
+	std::string GetWordStart(std::string_view text, Position current);
 	void AutoMarginWidth();
 	void AutomaticIndentation(int ch);
 	void ContinueCallTip();
@@ -76,12 +76,12 @@ private:
 	void InitMargins();
 	void InitZoom();
 	void OnKeyDown(uint32_t ch, uint32_t, uint32_t);
-	void OpenFindDialog(wil::zstring_view selected_text = "");
+	void OpenFindDialog(std::string_view selected_text = "");
 	void OpenGotoDialog();
-	void OpenReplaceDialog(wil::zstring_view selected_text = "");
+	void OpenReplaceDialog(std::string_view selected_text = "");
 	void ReadAPIs();
 	void SetIndentation(Line line, int indent);
-	void SetStyle(wil::zstring_view name, wil::zstring_view value);
+	void SetStyle(std::string_view name, std::string_view value);
 	void StartAutoComplete();
 	void StartCallTip();
 	void TrackWidth();

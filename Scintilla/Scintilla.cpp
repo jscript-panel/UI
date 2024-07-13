@@ -14,7 +14,7 @@ namespace
 {
 	using StyleIDs = std::vector<int>;
 
-	static const std::map<wil::zstring_view, StyleIDs> style_map =
+	static const std::map<std::string_view, StyleIDs> style_map =
 	{
 		{ "style.default", { STYLE_DEFAULT } },
 		{ "style.comment", { SCE_C_COMMENT, SCE_C_COMMENTLINE, SCE_C_COMMENTDOC, SCE_C_COMMENTLINEDOC, SCE_C_COMMENTDOCKEYWORD, SCE_C_COMMENTDOCKEYWORDERROR } },
@@ -234,11 +234,11 @@ bool CScintilla::Find(bool next)
 
 bool CScintilla::IsWordCharacter(char c)
 {
-	static constexpr wil::zstring_view word_characters = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	static constexpr std::string_view word_characters = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	return word_characters.contains(c);
 }
 
-std::optional<int> CScintilla::ParseHex(wil::zstring_view hex, bool alpha)
+std::optional<int> CScintilla::ParseHex(std::string_view hex, bool alpha)
 {
 	if (hex.length() == 7 && hex.at(0) == '#')
 	{
@@ -285,7 +285,7 @@ std::string CScintilla::GetSelectedText()
 	return text;
 }
 
-std::string CScintilla::GetWordStart(wil::zstring_view text, Position current)
+std::string CScintilla::GetWordStart(std::string_view text, Position current)
 {
 	m_word_start_pos = current;
 	for (const char c : text | std::views::take(current) | std::views::reverse)
@@ -538,7 +538,7 @@ void CScintilla::OnKeyDown(uint32_t ch, uint32_t, uint32_t)
 	SetMsgHandled(FALSE);
 }
 
-void CScintilla::OpenFindDialog(wil::zstring_view selected_text)
+void CScintilla::OpenFindDialog(std::string_view selected_text)
 {
 	if (!m_dlg_find_replace) m_dlg_find_replace = fb2k::newDialogEx<CDialogFindReplace>(m_hWnd, this);
 	m_dlg_find_replace->Update(CDialogFindReplace::Mode::Find, selected_text);
@@ -556,7 +556,7 @@ void CScintilla::OpenGotoDialog()
 	}
 }
 
-void CScintilla::OpenReplaceDialog(wil::zstring_view selected_text)
+void CScintilla::OpenReplaceDialog(std::string_view selected_text)
 {
 	if (!m_dlg_find_replace) m_dlg_find_replace = fb2k::newDialogEx<CDialogFindReplace>(m_hWnd, this);
 	m_dlg_find_replace->Update(CDialogFindReplace::Mode::Replace, selected_text);
@@ -629,7 +629,7 @@ void CScintilla::ReplaceAll()
 	EndUndoAction();
 }
 
-void CScintilla::SetCode(wil::zstring_view code)
+void CScintilla::SetCode(std::string_view code)
 {
 	SetText(code.data());
 	SetSavePoint();
@@ -688,7 +688,7 @@ void CScintilla::SetIndentation(Line line, int indent)
 	SetSel(range.start, range.end);
 }
 
-void CScintilla::SetStyle(wil::zstring_view name, wil::zstring_view value)
+void CScintilla::SetStyle(std::string_view name, std::string_view value)
 {
 	if (value.empty()) return;
 
