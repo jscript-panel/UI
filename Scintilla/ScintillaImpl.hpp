@@ -249,6 +249,7 @@ public:
 	int AutoCGetMaxHeight() { return static_cast<int>(Call(Message::AutoCGetMaxHeight)); }
 	int AutoCGetMaxWidth() { return static_cast<int>(Call(Message::AutoCGetMaxWidth)); }
 	int AutoCGetSeparator() { return static_cast<int>(Call(Message::AutoCGetSeparator)); }
+	int AutoCGetStyle() { return static_cast<int>(Call(Message::AutoCGetStyle)); }
 	int AutoCGetTypeSeparator() { return static_cast<int>(Call(Message::AutoCGetTypeSeparator)); }
 	int ChangeLexerState(Position start, Position end) { return static_cast<int>(Call(Message::ChangeLexerState, start, end)); }
 	int DescribeKeyWordSets(char* descriptions) { return static_cast<int>(CallPointer(Message::DescribeKeyWordSets, 0, descriptions)); }
@@ -378,6 +379,7 @@ public:
 	void AutoCSetOptions(AutoCompleteOption options) { Call(Message::AutoCSetOptions, static_cast<uintptr_t>(options)); }
 	void AutoCSetOrder(Ordering order) { Call(Message::AutoCSetOrder, static_cast<uintptr_t>(order)); }
 	void AutoCSetSeparator(int separatorCharacter) { Call(Message::AutoCSetSeparator, separatorCharacter); }
+	void AutoCSetStyle(int style) { Call(Message::AutoCSetStyle, style); }
 	void AutoCSetTypeSeparator(int separatorCharacter) { Call(Message::AutoCSetTypeSeparator, separatorCharacter); }
 	void AutoCShow(Position lengthEntered, const char* itemList) { CallString(Message::AutoCShow, lengthEntered, itemList); }
 	void AutoCStops(const char* characterSet) { CallString(Message::AutoCStops, 0, characterSet); }
@@ -424,6 +426,7 @@ public:
 	void CopyRange(Position start, Position end) { Call(Message::CopyRange, start, end); }
 	void CopyText(Position length, const char* text) { CallString(Message::CopyText, length, text); }
 	void Cut() { Call(Message::Cut); }
+	void CutAllowLine() { Call(Message::CutAllowLine); }
 	void DelLineLeft() { Call(Message::DelLineLeft); }
 	void DelLineRight() { Call(Message::DelLineRight); }
 	void DelWordLeft() { Call(Message::DelWordLeft); }
