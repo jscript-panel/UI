@@ -36,8 +36,6 @@ COLORREF CScintilla::GetSysColour(int id)
 	{
 		if (id == COLOR_WINDOW || id == COLOR_BTNFACE) return 0x202020;
 		else if (id == COLOR_WINDOWTEXT || id == COLOR_BTNTEXT) return 0xC0C0C0;
-		else if (id == COLOR_HIGHLIGHT) return 0x777777;
-		else if (id == COLOR_HIGHLIGHTTEXT) return 0x101010;
 	}
 	return GetSysColor(id);
 }
