@@ -13,11 +13,12 @@ public:
 
 	static uintptr_t __stdcall HookProc(HWND wnd, uint32_t msg, WPARAM, LPARAM lp);
 
-	HBRUSH OnCtlColor(CDCHandle dc, CWindow);
-	void UpdateControls();
-
 	void ui_colors_changed() final;
 
+	void UpdateControls();
+
 private:
+	HBRUSH OnCtlColor(CDCHandle dc, CWindow);
+
 	bool m_is_dark{};
 };
