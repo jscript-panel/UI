@@ -61,7 +61,7 @@ void CDialogConfigure::InitControls()
 
 void CDialogConfigure::InitFolders()
 {
-	static const std::wstring component_folder = Component::get_path();
+	static const std::wstring component_folder = Path::component();
 	m_licenses_folder = component_folder + L"licenses\\";
 	m_samples = FileHelper(component_folder + L"samples\\").list_files();
 	m_basic = FileHelper(component_folder + L"samples\\basic\\").list_files();
@@ -116,12 +116,12 @@ void CDialogConfigure::OnSamples(uint32_t, int, CWindow)
 
 	for (auto&& [index, path] : std::views::enumerate(m_basic))
 	{
-		AppendMenuW(basic, MF_STRING, ID_MENU_BASIC_BEGIN + index, FileHelper(path).filename().data());
+		AppendMenuW(basic, MF_STRING, ID_MENU_BASIC_BEGIN + index, Path::filename(path).data());
 	}
 
 	for (auto&& [index, path] : std::views::enumerate(m_samples))
 	{
-		AppendMenuW(samples, MF_STRING, ID_MENU_SAMPLES_BEGIN + index, FileHelper(path).filename().data());
+		AppendMenuW(samples, MF_STRING, ID_MENU_SAMPLES_BEGIN + index, Path::filename(path).data());
 	}
 
 	InsertMenuW(samples, ID_MENU_SAMPLES_BEGIN, MF_STRING | MF_POPUP, reinterpret_cast<uintptr_t>(basic), L"basic");
