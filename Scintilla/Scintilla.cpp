@@ -254,7 +254,8 @@ std::optional<int> CScintilla::ParseHex(std::string_view hex, bool alpha)
 std::string CScintilla::GetCode()
 {
 	const Position len = GetText(0, nullptr);
-	std::string text(len, '\0');
+	std::string text;
+	text.resize(len);
 	GetText(len, text.data());
 	return text;
 }
@@ -262,7 +263,8 @@ std::string CScintilla::GetCode()
 std::string CScintilla::GetCurLineText()
 {
 	const Position len = GetCurLine(0, nullptr);
-	std::string text(len, '\0');
+	std::string text;
+	text.resize(len);
 	GetCurLine(len, text.data());
 	return text;
 }
@@ -270,7 +272,8 @@ std::string CScintilla::GetCurLineText()
 std::string CScintilla::GetLineText(Line line)
 {
 	const Position len = GetLine(line, nullptr);
-	std::string text(len, '\0');
+	std::string text;
+	text.resize(len);
 	GetLine(line, text.data());
 	return text;
 }
@@ -278,7 +281,8 @@ std::string CScintilla::GetLineText(Line line)
 std::string CScintilla::GetSelectedText()
 {
 	const Position len = GetSelText(0);
-	std::string text(len, '\0');
+	std::string text;
+	text.resize(len);
 	GetSelText(text.data());
 	return text;
 }
