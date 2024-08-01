@@ -4,7 +4,9 @@
 #pragma region CListControlComplete
 bool PropertyList::GetCellCheckState(size_t row, size_t column) const
 {
-	if (column == 1 && m_items[row].is_bool) return m_items[row].bool_value;
+	if (column == 1 && m_items[row].is_bool)
+		return m_items[row].bool_value;
+
 	return false;
 }
 

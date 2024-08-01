@@ -34,8 +34,10 @@ COLORREF CScintilla::GetSysColour(int id)
 {
 	if (m_is_dark)
 	{
-		if (id == COLOR_WINDOW || id == COLOR_BTNFACE) return 0x202020;
-		else if (id == COLOR_WINDOWTEXT || id == COLOR_BTNTEXT) return 0xC0C0C0;
+		if (id == COLOR_WINDOW || id == COLOR_BTNFACE)
+			return 0x202020;
+		else if (id == COLOR_WINDOWTEXT || id == COLOR_BTNTEXT)
+			return 0xC0C0C0;
 	}
 	return GetSysColor(id);
 }
@@ -213,7 +215,8 @@ bool CScintilla::Find(bool next)
 	}
 	else
 	{
-		if (FlagSet(flags, FindOption::RegExp)) return false;
+		if (FlagSet(flags, FindOption::RegExp))
+			return false;
 
 		SearchAnchor();
 		pos = SearchPrev(flags, text.c_str());
