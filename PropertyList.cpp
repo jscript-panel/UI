@@ -133,7 +133,8 @@ int PropertyList::OnCreate(LPCREATESTRUCT)
 
 void PropertyList::OnContextMenu(CPoint pt)
 {
-	if (GetSelectedCount() == 0) return;
+	if (GetSelectedCount() == 0)
+		return;
 
 	HMENU menu = CreatePopupMenu();
 	AppendMenuW(menu, MF_STRING, ID_MENU_SELECTALL, L"Select all\tCtrl+A");

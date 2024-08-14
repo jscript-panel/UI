@@ -305,7 +305,8 @@ std::string CScintilla::GetWordStart(std::string_view text, Position current)
 
 void CScintilla::AutoMarginWidth()
 {
-	if (m_mode == ScintillaConfig::Mode::PlainText) return;
+	if (m_mode == ScintillaConfig::Mode::PlainText)
+		return;
 
 	const Line line_count = GetLineCount() * 10;
 	const int margin_width = TextWidth(STYLE_LINENUMBER, pfc::format_int(line_count));
@@ -445,7 +446,8 @@ void CScintilla::Init(ScintillaConfig::Mode mode)
 
 void CScintilla::InitJS()
 {
-	if (m_mode == ScintillaConfig::Mode::PlainText) return;
+	if (m_mode == ScintillaConfig::Mode::PlainText)
+		return;
 
 	static constexpr auto js_keywords =
 		"break case catch continue default delete do else false for function if in "
@@ -551,7 +553,8 @@ void CScintilla::OpenFindDialog(std::string_view selected_text)
 
 void CScintilla::OpenGotoDialog()
 {
-	if (m_mode == ScintillaConfig::Mode::PlainText) return;
+	if (m_mode == ScintillaConfig::Mode::PlainText)
+		return;
 
 	CDialogGoto dlg(GetCurrentLineNumber() + 1);
 	if (dlg.DoModal(m_hWnd) == IDOK)
@@ -652,7 +655,8 @@ void CScintilla::SetMode(ScintillaConfig::Mode mode)
 
 void CScintilla::SetIndentation(Line line, int indent)
 {
-	if (indent < 0) return;
+	if (indent < 0)
+		return;
 
 	Range range = GetSelection();
 	const Position pos_before = GetLineIndentPosition(line);
@@ -695,7 +699,8 @@ void CScintilla::SetIndentation(Line line, int indent)
 
 void CScintilla::SetStyle(std::string_view name, std::string_view value)
 {
-	if (value.empty()) return;
+	if (value.empty())
+		return;
 
 	const auto it = style_map.find(name);
 	if (it != style_map.end())
@@ -797,12 +802,14 @@ void CScintilla::StartCallTip()
 {
 	static constexpr int min_length = 4; // Date is the shortest word before opening brace
 	const Position current = GetCaretInLine() - 1;
-	if (current < min_length) return;
+	if (current < min_length)
+		return;
 
 	const std::string text = GetCurLineText();
 	const std::string current_calltip_word = GetWordStart(text, current);
 	const size_t len = current_calltip_word.length();
-	if (len < min_length) return;
+	if (len < min_length)
+		return;
 
 	const auto it = std::ranges::find_if(m_apis, [current_calltip_word, len](const API& item) { return item.text.length() > len && current_calltip_word == item.text.substr(0, item.len); });
 	if (it != m_apis.end())
