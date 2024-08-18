@@ -51,6 +51,7 @@ public:
 	FoldDisplayTextStyle FoldDisplayTextGetStyle() { return static_cast<FoldDisplayTextStyle>(Call(Message::FoldDisplayTextGetStyle)); }
 	FoldLevel GetFoldLevel(Line line) { return static_cast<FoldLevel>(Call(Message::GetFoldLevel, line)); }
 	FontQuality GetFontQuality() { return static_cast<FontQuality>(Call(Message::GetFontQuality)); }
+	FontStretch StyleGetStretch(int style) { return static_cast<FontStretch>(Call(Message::StyleGetStretch, style)); }
 	FontWeight StyleGetWeight(int style) { return static_cast<FontWeight>(Call(Message::StyleGetWeight, style)); }
 	IMEInteraction GetIMEInteraction() { return static_cast<IMEInteraction>(Call(Message::GetIMEInteraction)); }
 	IdleStyling GetIdleStyling() { return static_cast<IdleStyling>(Call(Message::GetIdleStyling)); }
@@ -266,6 +267,7 @@ public:
 	int GetCharacterCategoryOptimization() { return static_cast<int>(Call(Message::GetCharacterCategoryOptimization)); }
 	int GetCodePage() { return static_cast<int>(Call(Message::GetCodePage)); }
 	int GetControlCharSymbol() { return static_cast<int>(Call(Message::GetControlCharSymbol)); }
+	int GetCopySeparator(char* separator) { return static_cast<int>(CallPointer(Message::GetCopySeparator, 0, separator)); }
 	int GetDefaultFoldDisplayText(char* text) { return static_cast<int>(CallPointer(Message::GetDefaultFoldDisplayText, 0, text)); }
 	int GetExtraAscent() { return static_cast<int>(Call(Message::GetExtraAscent)); }
 	int GetExtraDescent() { return static_cast<int>(Call(Message::GetExtraDescent)); }
@@ -315,6 +317,7 @@ public:
 	int GetUndoCurrent() { return static_cast<int>(Call(Message::GetUndoCurrent)); }
 	int GetUndoDetach() { return static_cast<int>(Call(Message::GetUndoDetach)); }
 	int GetUndoSavePoint() { return static_cast<int>(Call(Message::GetUndoSavePoint)); }
+	int GetUndoSequence() { return static_cast<int>(Call(Message::GetUndoSequence)); }
 	int GetUndoTentative() { return static_cast<int>(Call(Message::GetUndoTentative)); }
 	int GetWhitespaceChars(char* characters) { return static_cast<int>(CallPointer(Message::GetWhitespaceChars, 0, characters)); }
 	int GetWhitespaceSize() { return static_cast<int>(Call(Message::GetWhitespaceSize)); }
@@ -486,6 +489,7 @@ public:
 	void InsertText(Position pos, const char* text) { CallString(Message::InsertText, pos, text); }
 	void LineCopy() { Call(Message::LineCopy); }
 	void LineCut() { Call(Message::LineCut); }
+	void LineDedent() { Call(Message::LineDedent); }
 	void LineDelete() { Call(Message::LineDelete); }
 	void LineDown() { Call(Message::LineDown); }
 	void LineDownExtend() { Call(Message::LineDownExtend); }
@@ -498,6 +502,7 @@ public:
 	void LineEndRectExtend() { Call(Message::LineEndRectExtend); }
 	void LineEndWrap() { Call(Message::LineEndWrap); }
 	void LineEndWrapExtend() { Call(Message::LineEndWrapExtend); }
+	void LineIndent() { Call(Message::LineIndent); }
 	void LineReverse() { Call(Message::LineReverse); }
 	void LineScroll(Position columns, Line lines) { Call(Message::LineScroll, columns, lines); }
 	void LineScrollDown() { Call(Message::LineScrollDown); }
@@ -603,6 +608,7 @@ public:
 	void SetCodePage(int codePage) { Call(Message::SetCodePage, codePage); }
 	void SetCommandEvents(bool commandEvents) { Call(Message::SetCommandEvents, commandEvents); }
 	void SetControlCharSymbol(int symbol) { Call(Message::SetControlCharSymbol, symbol); }
+	void SetCopySeparator(const char* separator) { CallString(Message::SetCopySeparator, 0, separator); }
 	void SetCurrentPos(Position caret) { Call(Message::SetCurrentPos, caret); }
 	void SetCursor(CursorShape cursorType) { Call(Message::SetCursor, static_cast<uintptr_t>(cursorType)); }
 	void SetDefaultFoldDisplayText(const char* text) { CallString(Message::SetDefaultFoldDisplayText, 0, text); }
@@ -767,6 +773,7 @@ public:
 	void StyleSetItalic(int style, bool italic) { Call(Message::StyleSetItalic, style, italic); }
 	void StyleSetSize(int style, int sizePoints) { Call(Message::StyleSetSize, style, sizePoints); }
 	void StyleSetSizeFractional(int style, int sizeHundredthPoints) { Call(Message::StyleSetSizeFractional, style, sizeHundredthPoints); }
+	void StyleSetStretch(int style, FontStretch stretch) { Call(Message::StyleSetStretch, style, static_cast<intptr_t>(stretch)); }
 	void StyleSetUnderline(int style, bool underline) { Call(Message::StyleSetUnderline, style, underline); }
 	void StyleSetVisible(int style, bool visible) { Call(Message::StyleSetVisible, style, visible); }
 	void StyleSetWeight(int style, FontWeight weight) { Call(Message::StyleSetWeight, style, static_cast<intptr_t>(weight)); }
