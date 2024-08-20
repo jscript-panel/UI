@@ -223,7 +223,7 @@ void CDialogConfigure::OnTools(uint32_t, int, CWindow)
 		Utils::execute(m_licenses_folder);
 		break;
 	case ID_MENU_ABOUT:
-		Component::popup(Component::about);
+		Component::popup(Component::about());
 		break;
 	}
 }
