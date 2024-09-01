@@ -19,6 +19,10 @@ BOOL CDialogInputBox::OnInitDialog(CWindow, LPARAM)
 
 void CDialogInputBox::OnCloseCmd(uint32_t, int nID, CWindow)
 {
-	m_value = js::to_wide(pfc::getWindowText(m_edit_value));
+	if (nID == IDOK)
+	{
+		m_value = js::to_wide(pfc::getWindowText(m_edit_value));
+	}
+
 	EndDialog(nID);
 }

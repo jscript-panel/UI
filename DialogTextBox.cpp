@@ -19,6 +19,10 @@ BOOL CDialogTextBox::OnInitDialog(CWindow, LPARAM)
 
 void CDialogTextBox::OnCloseCmd(uint32_t, int nID, CWindow)
 {
-	m_value = js::to_wide(m_scintilla.GetCode());
+	if (nID == IDOK)
+	{
+		m_value = js::to_wide(m_scintilla.GetCode());
+	}
+
 	EndDialog(nID);
 }
