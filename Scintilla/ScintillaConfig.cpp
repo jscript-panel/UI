@@ -109,12 +109,12 @@ void ScintillaConfig::set_zoom(int64_t zoom)
 void ScintillaConfig::export_to_file(std::string_view path)
 {
 	const std::string str = data_to_string(m_data);
-	FileHelper(path).write(str);
+	TextFile(path).write(str);
 }
 
 void ScintillaConfig::import_from_file(std::string_view path)
 {
-	cfg_string_scintilla = FileHelper(path).read().c_str();
+	cfg_string_scintilla = TextFile(path).read().c_str();
 	m_data = cfg_string_to_data(cfg_string_scintilla.get());
 }
 

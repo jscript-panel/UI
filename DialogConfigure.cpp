@@ -133,12 +133,12 @@ void CDialogConfigure::OnSamples(uint32_t, int, CWindow)
 
 	if (id >= ID_MENU_SAMPLES_BEGIN && id <= ID_MENU_SAMPLES_END)
 	{
-		const std::string str = FileHelper(m_samples[id - ID_MENU_SAMPLES_BEGIN]).read();
+		const std::string str = TextFile(m_samples[id - ID_MENU_SAMPLES_BEGIN]).read();
 		m_scintilla.SetCode(str);
 	}
 	else if (id >= ID_MENU_BASIC_BEGIN && id <= ID_MENU_BASIC_END)
 	{
-		const std::string str = FileHelper(m_basic[id - ID_MENU_BASIC_BEGIN]).read();
+		const std::string str = TextFile(m_basic[id - ID_MENU_BASIC_BEGIN]).read();
 		m_scintilla.SetCode(str);
 	}
 }

@@ -402,7 +402,7 @@ void CScintilla::Export()
 	if (uGetOpenFileName(m_hWnd, "Text files|*.txt|All files|*.*", 0, "txt", "Save as", nullptr, path, TRUE))
 	{
 		const std::string str = GetCode();
-		FileHelper(path).write(str);
+		TextFile(path).write(str);
 	}
 }
 
@@ -411,7 +411,7 @@ void CScintilla::Import()
 	string8 path;
 	if (uGetOpenFileName(m_hWnd, "Text files|*.txt|JScript files|*.js|All files|*.*", 0, "txt", "Import from", nullptr, path, FALSE))
 	{
-		const std::string str = FileHelper(path).read();
+		const std::string str = TextFile(path).read();
 		SetCode(str);
 	}
 }
