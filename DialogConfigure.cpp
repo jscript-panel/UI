@@ -111,8 +111,10 @@ void CDialogConfigure::OnCancel(uint32_t, int nID, CWindow)
 
 void CDialogConfigure::OnSamples(uint32_t, int, CWindow)
 {
+	CRect rect;
 	HMENU samples = CreatePopupMenu();
 	HMENU basic = CreatePopupMenu();
+	std::wstring sample_file;
 
 	for (auto&& [index, path] : std::views::enumerate(m_basic))
 	{
@@ -126,26 +128,34 @@ void CDialogConfigure::OnSamples(uint32_t, int, CWindow)
 
 	InsertMenuW(samples, ID_MENU_SAMPLES_BEGIN, MF_STRING | MF_POPUP, reinterpret_cast<uintptr_t>(basic), L"basic");
 
-	CRect rect;
 	GetDlgItem(IDC_BTN_SAMPLES).GetWindowRect(&rect);
 	const int id = TrackPopupMenuEx(samples, TPM_BOTTOMALIGN | TPM_NONOTIFY | TPM_RETURNCMD, rect.left, rect.top, m_hWnd, nullptr);
 	DestroyMenu(samples);
 
 	if (id >= ID_MENU_SAMPLES_BEGIN && id <= ID_MENU_SAMPLES_END)
 	{
-		const std::string str = TextFile(m_samples[id - ID_MENU_SAMPLES_BEGIN]).read();
-		m_scintilla.SetCode(str);
+		sample_file = m_samples[id - ID_MENU_SAMPLES_BEGIN];
+
 	}
 	else if (id >= ID_MENU_BASIC_BEGIN && id <= ID_MENU_BASIC_END)
 	{
-		const std::string str = TextFile(m_basic[id - ID_MENU_BASIC_BEGIN]).read();
-		m_scintilla.SetCode(str);
+		sample_file = m_basic[id - ID_MENU_BASIC_BEGIN];
 	}
+	else
+	{
+		return;
+	}
+
+	const std::string str = TextFile(sample_file).read();
+	m_scintilla.SetCode(str);
 }
 
 void CDialogConfigure::OnStyle(uint32_t, int, CWindow)
 {
+	CRect rect;
+	HMENU menu = CreatePopupMenu();
 	uint32_t check{}, edit_flag{};
+
 	if (m_scintilla.m_mode == ScintillaConfig::Mode::JavaScriptCustom)
 	{
 		check = ID_MENU_STYLE_CUSTOM;
@@ -157,14 +167,12 @@ void CDialogConfigure::OnStyle(uint32_t, int, CWindow)
 		edit_flag = MF_GRAYED;
 	}
 
-	HMENU menu = CreatePopupMenu();
 	AppendMenuW(menu, MF_STRING, ID_MENU_STYLE_AUTO, L"Auto");
 	AppendMenuW(menu, MF_STRING, ID_MENU_STYLE_CUSTOM, L"Custom");
 	AppendMenuW(menu, MF_SEPARATOR, 0, 0);
 	AppendMenuW(menu, edit_flag, ID_MENU_STYLE_EDIT, L"Edit...");
 	CheckMenuRadioItem(menu, ID_MENU_STYLE_AUTO, ID_MENU_STYLE_CUSTOM, check, MF_BYCOMMAND);
 
-	CRect rect;
 	GetDlgItem(IDC_BTN_STYLE).GetWindowRect(&rect);
 	const int id = TrackPopupMenuEx(menu, TPM_BOTTOMALIGN | TPM_NONOTIFY | TPM_RETURNCMD, rect.left, rect.top, m_hWnd, nullptr);
 	DestroyMenu(menu);
@@ -185,7 +193,9 @@ void CDialogConfigure::OnStyle(uint32_t, int, CWindow)
 
 void CDialogConfigure::OnTools(uint32_t, int, CWindow)
 {
+	CRect rect;
 	HMENU menu = CreatePopupMenu();
+
 	AppendMenuW(menu, MF_STRING, ID_MENU_RESET, L"Reset");
 	AppendMenuW(menu, MF_SEPARATOR, 0, 0);
 	AppendMenuW(menu, MF_STRING, ID_MENU_IMPORT, L"Import");
@@ -197,7 +207,6 @@ void CDialogConfigure::OnTools(uint32_t, int, CWindow)
 	AppendMenuW(menu, MF_STRING, ID_MENU_LICENSES, L"Licenses");
 	AppendMenuW(menu, MF_STRING, ID_MENU_ABOUT, L"About");
 
-	CRect rect;
 	GetDlgItem(IDC_BTN_TOOLS).GetWindowRect(&rect);
 	const int id = TrackPopupMenuEx(menu, TPM_BOTTOMALIGN | TPM_NONOTIFY | TPM_RETURNCMD, rect.left, rect.top, m_hWnd, nullptr);
 	DestroyMenu(menu);
