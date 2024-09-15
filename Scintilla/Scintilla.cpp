@@ -328,7 +328,9 @@ void CScintilla::AutomaticIndentation(int ch)
 
 		for (const char c : text | std::views::reverse)
 		{
-			if (isspace(c)) continue;
+			if (isspace(c))
+				continue;
+
 			if (c == '{') indent_block += indent_size;
 			break;
 		}
@@ -337,7 +339,11 @@ void CScintilla::AutomaticIndentation(int ch)
 	if (ch == '}')
 	{
 		auto view = std::views::iota(line_start, selection_start - 1);
-		const bool all_whitespace = std::ranges::all_of(view, [this](const Position pos) { return isspace(GetCharAt(pos)) != 0; });
+		const bool all_whitespace = std::ranges::all_of(view, [this](const Position pos)
+			{
+				return isspace(GetCharAt(pos)) != 0;
+			});
+
 		if (all_whitespace)
 		{
 			SetIndentation(current_line, indent_block - indent_size);
@@ -583,7 +589,8 @@ void CScintilla::ReadAPIs()
 
 	for (auto&& line : js::split_string(api_text, CRLF))
 	{
-		if (line.empty()) continue;
+		if (line.empty())
+			continue;
 
 		API item;
 		item.text = line;
@@ -811,7 +818,11 @@ void CScintilla::StartCallTip()
 	if (len < min_length)
 		return;
 
-	const auto it = std::ranges::find_if(m_apis, [current_calltip_word, len](const API& item) { return item.text.length() > len && current_calltip_word == item.text.substr(0, item.len); });
+	const auto it = std::ranges::find_if(m_apis, [current_calltip_word, len](const API& item)
+		{
+			return item.text.length() > len && current_calltip_word == item.text.substr(0, item.len);
+		});
+
 	if (it != m_apis.end())
 	{
 		m_function_definition = it->text;
