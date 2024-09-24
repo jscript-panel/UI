@@ -39,6 +39,7 @@ COLORREF CScintilla::GetSysColour(int id)
 		else if (id == COLOR_WINDOWTEXT || id == COLOR_BTNTEXT)
 			return 0xC0C0C0;
 	}
+
 	return GetSysColor(id);
 }
 
@@ -195,9 +196,8 @@ Position CScintilla::GetCaretInLine()
 ScintillaConfig::Data CScintilla::GetConfigData()
 {
 	if (m_mode == ScintillaConfig::Mode::JavaScriptCustom)
-	{
 		return g_scintilla_config.m_data;
-	}
+
 	return g_scintilla_config.get_default_data();
 }
 
@@ -243,14 +243,14 @@ std::optional<int> CScintilla::ParseHex(std::string_view hex, bool alpha)
 {
 	if (hex.length() == 7 && hex.at(0) == '#')
 	{
-		const int r = js::hex_digit_to_int(hex.at(1)) << 4 | js::hex_digit_to_int(hex.at(2));
-		const int g = js::hex_digit_to_int(hex.at(3)) << 4 | js::hex_digit_to_int(hex.at(4));
-		const int b = js::hex_digit_to_int(hex.at(5)) << 4 | js::hex_digit_to_int(hex.at(6));
+		const auto colour = js::to_colorref(hex.substr(1));
 
-		auto c = RGB(r, g, b);
-		if (alpha) c |= 0xff000000;
-		return js::to_int(c);
+		if (alpha)
+			return js::to_int(colour | 0xff000000);
+
+		return js::to_int(colour);
 	}
+
 	return std::nullopt;
 }
 
@@ -505,6 +505,7 @@ void CScintilla::InitMargins()
 void CScintilla::InitZoom()
 {
 	const auto zoom = js::to_int(g_scintilla_config.get_zoom());
+
 	if (zoom != 0)
 	{
 		SetZoom(zoom);
@@ -563,6 +564,7 @@ void CScintilla::OpenGotoDialog()
 		return;
 
 	CDialogGoto dlg(GetCurrentLineNumber() + 1);
+
 	if (dlg.DoModal(m_hWnd) == IDOK)
 	{
 		const Line line = dlg.m_line_number - 1;
@@ -572,7 +574,11 @@ void CScintilla::OpenGotoDialog()
 
 void CScintilla::OpenReplaceDialog(std::string_view selected_text)
 {
-	if (!m_dlg_find_replace) m_dlg_find_replace = fb2k::newDialogEx<CDialogFindReplace>(m_hWnd, this);
+	if (!m_dlg_find_replace)
+	{
+		m_dlg_find_replace = fb2k::newDialogEx<CDialogFindReplace>(m_hWnd, this);
+	}
+
 	m_dlg_find_replace->Update(CDialogFindReplace::Mode::Replace, selected_text);
 }
 
@@ -720,29 +726,76 @@ void CScintilla::SetStyle(std::string_view name, std::string_view value)
 			const std::string primary = parts[0];
 			const std::string secondary = parts.size() == 2 ? parts[1] : "";
 
-			if (primary == "font") style.font = secondary;
-			else if (primary == "size" && pfc::string_is_numeric(secondary.c_str())) style.size = std::stoi(secondary);
-			else if (primary == "fore") style.fore = ParseHex(secondary);
-			else if (primary == "back") style.back = ParseHex(secondary);
-			else if (primary == "bold") style.bold = true;
-			else if (primary == "italics") style.italic = true;
+			if (primary == "font")
+			{
+				style.font = secondary;
+			}
+			else if (primary == "size" && pfc::string_is_numeric(secondary.c_str()))
+			{
+				style.size = std::stoi(secondary);
+			}
+			else if (primary == "fore")
+			{
+				style.fore = ParseHex(secondary);
+			}
+			else if (primary == "back")
+			{
+				style.back = ParseHex(secondary);
+			}
+			else if (primary == "bold")
+			{
+				style.bold = true;
+			}
+			else if (primary == "italics")
+			{
+				style.italic = true;
+			}
 		}
 
 		for (const int id : it->second)
 		{
-			if (style.font.length()) StyleSetFont(id, style.font.c_str());
-			if (style.size > 0) StyleSetSize(id, style.size);
-			if (style.fore) StyleSetFore(id, *style.fore);
-			if (style.back) StyleSetBack(id, *style.back);
-			if (style.bold) StyleSetBold(id, style.bold);
-			if (style.italic) StyleSetItalic(id, style.italic);
+			if (style.font.length())
+			{
+				StyleSetFont(id, style.font.c_str());
+			}
+
+			if (style.size > 0)
+			{
+				StyleSetSize(id, style.size);
+			}
+
+			if (style.fore)
+			{
+				StyleSetFore(id, *style.fore);
+			}
+
+			if (style.back)
+			{
+				StyleSetBack(id, *style.back);
+			}
+
+			if (style.bold)
+			{
+				StyleSetBold(id, style.bold);
+			}
+
+			if (style.italic)
+			{
+				StyleSetItalic(id, style.italic);
+			}
+
 			StyleSetCheckMonospaced(id, true);
-			if (id == STYLE_DEFAULT) StyleClearAll();
+
+			if (id == STYLE_DEFAULT)
+			{
+				StyleClearAll();
+			}
 		}
 	}
 	else
 	{
 		const auto colour = ParseHex(value, true);
+
 		if (colour)
 		{
 			if (name == "style.caret.fore")
@@ -768,8 +821,7 @@ void CScintilla::SetStyles()
 	ClearDocumentStyle();
 	StyleResetDefault();
 
-	auto data = GetConfigData();
-	for (const auto& [name, value] : data)
+	for (const auto& [name, value] : GetConfigData())
 	{
 		SetStyle(name, value);
 	}
@@ -794,8 +846,16 @@ void CScintilla::StartAutoComplete()
 	const std::string text = GetCurLineText();
 	const std::string word_start = GetWordStart(text, current);
 
-	auto filter = [word_start](const API& item) { return item.text.starts_with(word_start); };
-	auto transform = [](const API& item) { return item.text.substr(0, item.len); };
+	auto filter = [word_start](const API& item)
+		{
+			return item.text.starts_with(word_start);
+		};
+
+	auto transform = [](const API& item)
+		{ 
+			return item.text.substr(0, item.len);
+		};
+
 	auto words = m_apis | std::views::filter(filter) | std::views::transform(transform);
 	const std::string str = fmt::format("{}", fmt::join(words, " "));
 
@@ -833,7 +893,11 @@ void CScintilla::StartCallTip()
 
 void CScintilla::TrackWidth()
 {
-	auto transform = [this](const Line line) { return PointXFromPosition(GetLineEndPosition(line)); };
+	auto transform = [this](const Line line)
+		{
+			return PointXFromPosition(GetLineEndPosition(line));
+		};
+
 	auto view = std::views::iota(0, GetLineCount()) | std::views::transform(transform);
 	SetScrollWidth(std::ranges::max(view));
 }

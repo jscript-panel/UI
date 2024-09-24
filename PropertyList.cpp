@@ -19,9 +19,8 @@ bool PropertyList::GetSubItemText(size_t row, size_t column, pfc::string_base& o
 		return true;
 	case 1:
 		if (m_items[row].is_bool)
-		{
 			return false;
-		}
+
 		out = m_items[row].value;
 		return true;
 	default:
@@ -37,9 +36,8 @@ bool PropertyList::TableEdit_IsColumnEditable(size_t column) const
 PropertyList::cellType_t PropertyList::GetCellType(size_t row, size_t column) const
 {
 	if (column == 1 && m_items[row].is_bool)
-	{
 		return &PFC_SINGLETON(CListCell_Checkbox);
-	}
+
 	return &PFC_SINGLETON(CListCell_Text);
 }
 
@@ -55,6 +53,7 @@ void PropertyList::OnSubItemClicked(size_t row, size_t column, CPoint pt)
 		TableEdit_Start(row, column);
 		return;
 	}
+
 	__super::OnSubItemClicked(row, column, pt);
 }
 

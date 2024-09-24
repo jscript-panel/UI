@@ -39,7 +39,10 @@ void CDialogPlaylistLock::OnCloseCmd(uint32_t, int nID, CWindow)
 
 		for (const auto& [cbox, filter] : m_items)
 		{
-			if (cbox.IsChecked()) mask |= filter;
+			if (cbox.IsChecked())
+			{
+				mask |= filter;
+			}
 		}
 
 		if (mask != m_mask)

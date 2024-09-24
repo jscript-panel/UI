@@ -44,10 +44,12 @@ ScintillaConfig::Data ScintillaConfig::cfg_string_to_data(std::string_view str)
 	{
 		std::string value;
 		const auto it = map.find(name);
+
 		if (it != map.end())
 		{
 			value = it->second;
 		}
+
 		data.emplace_back(StringPair(name, value));
 	}
 
@@ -57,9 +59,8 @@ ScintillaConfig::Data ScintillaConfig::cfg_string_to_data(std::string_view str)
 ScintillaConfig::Data ScintillaConfig::get_default_data()
 {
 	if (ui_config_manager::g_is_dark_mode())
-	{
 		return preset_to_data(IDR_CFG_DARK_GRAY);
-	}
+
 	return preset_to_data(IDR_CFG_DEFAULT);
 }
 
@@ -72,11 +73,13 @@ ScintillaConfig::Data ScintillaConfig::preset_to_data(int id)
 ScintillaConfig::Mode ScintillaConfig::get_mode()
 {
 	auto mode = static_cast<Mode>(cfg_int_scintilla_mode.get());
+
 	if (mode == Mode::PlainText)
 	{
 		mode = Mode::JavaScriptAuto;
 		set_mode(mode);
 	}
+
 	return mode;
 }
 
@@ -88,10 +91,12 @@ int64_t ScintillaConfig::get_zoom()
 std::string ScintillaConfig::data_to_string(const Data& data)
 {
 	fmt::memory_buffer buffer;
+
 	for (const auto& [name, value] : data)
 	{
 		fmt::format_to(std::back_inserter(buffer), "{}={}{}", name, value, CRLF);
 	}
+
 	return fmt::to_string(buffer);
 }
 

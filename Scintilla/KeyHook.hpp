@@ -21,6 +21,7 @@ private:
 		case '\x1b':
 			return;
 		}
+
 		SetMsgHandled(FALSE);
 	}
 
@@ -38,6 +39,7 @@ private:
 			GetParent().PostMessageW(WM_NEXTDLGCTL, IsKeyPressed(VK_SHIFT) ? 1 : 0);
 			return;
 		}
+
 		SetMsgHandled(FALSE);
 	}
 
