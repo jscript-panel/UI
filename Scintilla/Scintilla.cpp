@@ -730,9 +730,9 @@ void CScintilla::SetStyle(std::string_view name, std::string_view value)
 			{
 				style.font = secondary;
 			}
-			else if (primary == "size" && pfc::string_is_numeric(secondary.c_str()))
+			else if (primary == "size")
 			{
-				style.size = std::stoi(secondary);
+				style.size = js::to_int(secondary);
 			}
 			else if (primary == "fore")
 			{
@@ -759,9 +759,9 @@ void CScintilla::SetStyle(std::string_view name, std::string_view value)
 				StyleSetFont(id, style.font.c_str());
 			}
 
-			if (style.size > 0)
+			if (style.size)
 			{
-				StyleSetSize(id, style.size);
+				StyleSetSize(id, *style.size);
 			}
 
 			if (style.fore)

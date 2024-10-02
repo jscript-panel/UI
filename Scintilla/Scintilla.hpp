@@ -42,8 +42,8 @@ private:
 	struct EditorStyle
 	{
 		bool bold{}, italic{};
-		int size{};
 		std::optional<Colour> back{}, fore{};
+		std::optional<int> size{};
 		std::string font;
 	};
 
