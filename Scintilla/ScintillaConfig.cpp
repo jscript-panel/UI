@@ -33,7 +33,8 @@ ScintillaConfig::Data ScintillaConfig::cfg_string_to_data(std::string_view str)
 
 	for (auto&& line : js::split_string(str, CRLF))
 	{
-		const Strings tmp = js::split_string(line, "=");
+		const auto tmp = js::split_string(line, "=");
+
 		if (tmp.size() == 2)
 		{
 			map.emplace(tmp[0], tmp[1]);
@@ -50,7 +51,7 @@ ScintillaConfig::Data ScintillaConfig::cfg_string_to_data(std::string_view str)
 			value = it->second;
 		}
 
-		data.emplace_back(StringPair(name, value));
+		data.emplace_back(name, value);
 	}
 
 	return data;

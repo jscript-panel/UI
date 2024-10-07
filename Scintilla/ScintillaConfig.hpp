@@ -10,7 +10,7 @@ public:
 		JavaScriptCustom,
 	};
 
-	using Data = std::vector<StringPair>;
+	using Data = StringPairs;
 
 	static Data cfg_string_to_data(std::string_view str);
 	static Data get_default_data();
