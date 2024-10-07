@@ -27,7 +27,14 @@ namespace
 		{ "style.bracebad" , { STYLE_BRACEBAD } },
 	};
 
-	FB2K_RUN_ON_INIT_QUIT([] { Scintilla_RegisterClasses(core_api::get_my_instance()); }, [] { Scintilla_ReleaseResources(); });
+	FB2K_ON_INIT_STAGE([]
+		{
+			g_scintilla_config.init_data();
+			Scintilla_RegisterClasses(core_api::get_my_instance());
+		}
+	, init_stages::before_ui_init);
+
+	FB2K_RUN_ON_QUIT(Scintilla_ReleaseResources);
 }
 
 COLORREF CScintilla::GetSysColour(int id)

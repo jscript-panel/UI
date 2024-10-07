@@ -153,4 +153,3 @@ void ScintillaConfig::set_data_item(size_t idx, std::string_view str)
 	set_data();
 }
 
-FB2K_ON_INIT_STAGE([] { g_scintilla_config.init_data(); }, init_stages::after_config_read)
