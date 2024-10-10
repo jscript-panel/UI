@@ -41,9 +41,9 @@ COLORREF CScintilla::GetSysColour(int id)
 {
 	if (m_is_dark)
 	{
-		if (id == COLOR_WINDOW || id == COLOR_BTNFACE)
+		if (id == COLOR_WINDOW)
 			return 0x202020;
-		else if (id == COLOR_WINDOWTEXT || id == COLOR_BTNTEXT)
+		else if (id == COLOR_WINDOWTEXT)
 			return 0xC0C0C0;
 	}
 
@@ -835,8 +835,8 @@ void CScintilla::SetStyles()
 
 	StyleSetFont(STYLE_LINENUMBER, "Consolas");
 	StyleSetSize(STYLE_LINENUMBER, StyleGetSize(STYLE_DEFAULT) - 2);
-	StyleSetBack(STYLE_LINENUMBER, GetSysColour(COLOR_BTNFACE));
-	StyleSetFore(STYLE_LINENUMBER, GetSysColour(COLOR_BTNTEXT));
+	StyleSetBack(STYLE_LINENUMBER, GetSysColour(COLOR_WINDOW));
+	StyleSetFore(STYLE_LINENUMBER, GetSysColour(COLOR_WINDOWTEXT));
 
 	SetElementColour(Element::List, GetSysColourAlpha(COLOR_WINDOWTEXT));
 	SetElementColour(Element::ListBack, GetSysColourAlpha(COLOR_WINDOW));
