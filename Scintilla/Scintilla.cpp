@@ -80,10 +80,12 @@ LRESULT CScintilla::OnCharAdded(LPNMHDR pnmh)
 			{
 			case ')':
 				m_brace_count--;
+
 				if (m_brace_count < 1)
 					CallTipCancel();
 				else
 					StartCallTip();
+
 				break;
 			case '(':
 				m_brace_count++;
@@ -150,6 +152,7 @@ LRESULT CScintilla::OnUpdateUI(LPNMHDR)
 		if (pos > 0)
 		{
 			const Position pos_before = PositionBefore(pos);
+
 			if (pos_before == pos - 1 && IsBraceChar(GetCharAt(pos_before)))
 			{
 				brace_at_caret = pos - 1;
@@ -391,6 +394,7 @@ void CScintilla::ContinueCallTip()
 	{
 		if (m_function_definition.at(start_highlight) == ',')
 			commas--;
+
 		if (m_function_definition.at(start_highlight) == ')')
 			commas = 0;
 		else
@@ -687,13 +691,6 @@ void CScintilla::SetColour(std::string_view name, std::string_view value)
 	}
 }
 
-void CScintilla::SetMode(ScintillaConfig::Mode mode)
-{
-	m_mode = mode;
-	g_scintilla_config.set_mode(m_mode);
-	SetStyles();
-}
-
 void CScintilla::SetIndentation(Line line, int indent)
 {
 	if (indent < 0)
@@ -736,6 +733,13 @@ void CScintilla::SetIndentation(Line line, int indent)
 	}
 
 	SetSel(range.start, range.end);
+}
+
+void CScintilla::SetMode(ScintillaConfig::Mode mode)
+{
+	m_mode = mode;
+	g_scintilla_config.set_mode(m_mode);
+	SetStyles();
 }
 
 void CScintilla::SetStyle(std::string_view name, std::string_view value)
