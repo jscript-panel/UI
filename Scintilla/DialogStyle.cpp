@@ -23,6 +23,7 @@ string8 CDialogStyle::listGetSubItemText(ctx_t, size_t row, size_t column)
 	case 1:
 		return g_scintilla_config.m_data[row].second;
 	}
+
 	return "";
 }
 
@@ -67,6 +68,7 @@ void CDialogStyle::OnCancel(uint32_t, int nID, CWindow)
 void CDialogStyle::OnExportBnClicked(uint32_t, int, CWindow)
 {
 	string8 path;
+
 	if (uGetOpenFileName(m_hWnd, "Configuration files|*.cfg", 0, "cfg", "Save as", nullptr, path, TRUE))
 	{
 		g_scintilla_config.export_to_file(path);
@@ -76,6 +78,7 @@ void CDialogStyle::OnExportBnClicked(uint32_t, int, CWindow)
 void CDialogStyle::OnImportBnClicked(uint32_t, int, CWindow)
 {
 	string8 path;
+
 	if (uGetOpenFileName(m_hWnd, "Configuration files|*.cfg|All files|*.*", 0, "cfg", "Import from", nullptr, path, FALSE))
 	{
 		g_scintilla_config.import_from_file(path);
