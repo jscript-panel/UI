@@ -666,6 +666,27 @@ void CScintilla::SetCode(std::string_view code)
 	TrackWidth();
 }
 
+void CScintilla::SetColour(std::string_view name, std::string_view value)
+{
+	const auto colour = ParseHex(value, true);
+
+	if (colour)
+	{
+		if (name == "style.caret.fore")
+		{
+			SetElementColour(Element::Caret, *colour);
+		}
+		else if (name == "style.selection.back")
+		{
+			SetSelectionLayer(Layer::UnderText);
+			SetElementColour(Element::SelectionBack, *colour);
+			SetElementColour(Element::SelectionAdditionalBack, *colour);
+			SetElementColour(Element::SelectionSecondaryBack, *colour);
+			SetElementColour(Element::SelectionInactiveBack, *colour);
+		}
+	}
+}
+
 void CScintilla::SetMode(ScintillaConfig::Mode mode)
 {
 	m_mode = mode;
@@ -723,100 +744,84 @@ void CScintilla::SetStyle(std::string_view name, std::string_view value)
 		return;
 
 	const auto it = style_map.find(name);
-	if (it != style_map.end())
+
+	if (it == style_map.end())
 	{
-		EditorStyle style;
+		SetColour(name, value);
+		return;
+	}
 
-		for (auto&& str : js::split_string(value, ","))
+	EditorStyle style;
+
+	for (auto&& str : js::split_string(value, ","))
+	{
+		const auto parts = js::split_string(str, ":");
+		const std::string primary = parts[0];
+		const std::string secondary = parts.size() == 2 ? parts[1] : "";
+
+		if (primary == "font")
 		{
-			const auto parts = js::split_string(str, ":");
-			const std::string primary = parts[0];
-			const std::string secondary = parts.size() == 2 ? parts[1] : "";
-
-			if (primary == "font")
-			{
-				style.font = secondary;
-			}
-			else if (primary == "size")
-			{
-				style.size = js::to_int(secondary);
-			}
-			else if (primary == "fore")
-			{
-				style.fore = ParseHex(secondary);
-			}
-			else if (primary == "back")
-			{
-				style.back = ParseHex(secondary);
-			}
-			else if (primary == "bold")
-			{
-				style.bold = true;
-			}
-			else if (primary == "italics")
-			{
-				style.italic = true;
-			}
+			style.font = secondary;
 		}
-
-		for (const int id : it->second)
+		else if (primary == "size")
 		{
-			if (style.font.length())
-			{
-				StyleSetFont(id, style.font.c_str());
-			}
-
-			if (style.size)
-			{
-				StyleSetSize(id, *style.size);
-			}
-
-			if (style.fore)
-			{
-				StyleSetFore(id, *style.fore);
-			}
-
-			if (style.back)
-			{
-				StyleSetBack(id, *style.back);
-			}
-
-			if (style.bold)
-			{
-				StyleSetBold(id, style.bold);
-			}
-
-			if (style.italic)
-			{
-				StyleSetItalic(id, style.italic);
-			}
-
-			StyleSetCheckMonospaced(id, true);
-
-			if (id == STYLE_DEFAULT)
-			{
-				StyleClearAll();
-			}
+			style.size = js::to_int(secondary);
+		}
+		else if (primary == "fore")
+		{
+			style.fore = ParseHex(secondary);
+		}
+		else if (primary == "back")
+		{
+			style.back = ParseHex(secondary);
+		}
+		else if (primary == "bold")
+		{
+			style.bold = true;
+		}
+		else if (primary == "italics")
+		{
+			style.italic = true;
 		}
 	}
-	else
-	{
-		const auto colour = ParseHex(value, true);
 
-		if (colour)
+	for (const int id : it->second)
+	{
+		if (style.font.length())
 		{
-			if (name == "style.caret.fore")
-			{
-				SetElementColour(Element::Caret, *colour);
-			}
-			else if (name == "style.selection.back")
-			{
-				SetSelectionLayer(Layer::UnderText);
-				SetElementColour(Element::SelectionBack, *colour);
-				SetElementColour(Element::SelectionAdditionalBack, *colour);
-				SetElementColour(Element::SelectionSecondaryBack, *colour);
-				SetElementColour(Element::SelectionInactiveBack, *colour);
-			}
+			StyleSetFont(id, style.font.c_str());
+		}
+
+		if (style.size)
+		{
+			StyleSetSize(id, *style.size);
+		}
+
+		if (style.fore)
+		{
+			StyleSetFore(id, *style.fore);
+		}
+
+		if (style.back)
+		{
+			StyleSetBack(id, *style.back);
+		}
+
+		if (style.bold)
+		{
+			StyleSetBold(id, style.bold);
+		}
+
+		if (style.italic)
+		{
+			StyleSetItalic(id, style.italic);
+		}
+
+		StyleSetCheckMonospaced(id, true);
+
+		if (id == STYLE_DEFAULT)
+		{
+			StyleClearAll();
 		}
 	}
 }

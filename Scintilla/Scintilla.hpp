@@ -80,6 +80,7 @@ private:
 	void OpenGotoDialog();
 	void OpenReplaceDialog(std::string_view selected_text = "");
 	void ReadAPIs();
+	void SetColour(std::string_view name, std::string_view value);
 	void SetIndentation(Line line, int indent);
 	void SetStyle(std::string_view name, std::string_view value);
 	void StartAutoComplete();
