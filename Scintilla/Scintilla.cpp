@@ -180,6 +180,7 @@ LRESULT CScintilla::OnUpdateUI(LPNMHDR)
 			SetHighlightGuide(std::min(GetColumn(brace_at_caret), GetColumn(brace_opposite)));
 		}
 	}
+
 	return 0;
 }
 
@@ -310,6 +311,7 @@ std::string CScintilla::GetWordStart(std::string_view text, Position current)
 		else
 			break;
 	}
+
 	return std::string(text.substr(m_word_start_pos, current - m_word_start_pos));
 }
 
@@ -383,10 +385,12 @@ void CScintilla::ContinueCallTip()
 	}
 
 	size_t start_highlight{};
+
 	while (start_highlight < len && m_function_definition.at(start_highlight) != '(')
 	{
 		start_highlight++;
 	}
+
 	if (start_highlight < len && m_function_definition.at(start_highlight) == '(')
 		start_highlight++;
 
@@ -405,6 +409,7 @@ void CScintilla::ContinueCallTip()
 		start_highlight++;
 
 	size_t end_highlight = start_highlight;
+
 	while (end_highlight < len && m_function_definition.at(end_highlight) != ',' && m_function_definition.at(end_highlight) != ')')
 	{
 		end_highlight++;
@@ -416,6 +421,7 @@ void CScintilla::ContinueCallTip()
 void CScintilla::Export()
 {
 	string8 path;
+
 	if (uGetOpenFileName(m_hWnd, "Text files|*.txt|All files|*.*", 0, "txt", "Save as", nullptr, path, TRUE))
 	{
 		const std::string str = GetCode();
@@ -426,6 +432,7 @@ void CScintilla::Export()
 void CScintilla::Import()
 {
 	string8 path;
+
 	if (uGetOpenFileName(m_hWnd, "Text files|*.txt|JScript files|*.js|All files|*.*", 0, "txt", "Import from", nullptr, path, FALSE))
 	{
 		const std::string str = TextFile(path).read();
@@ -565,7 +572,11 @@ void CScintilla::OnKeyDown(uint32_t ch, uint32_t, uint32_t)
 
 void CScintilla::OpenFindDialog(std::string_view selected_text)
 {
-	if (!m_dlg_find_replace) m_dlg_find_replace = fb2k::newDialogEx<CDialogFindReplace>(m_hWnd, this);
+	if (!m_dlg_find_replace)
+	{
+		m_dlg_find_replace = fb2k::newDialogEx<CDialogFindReplace>(m_hWnd, this);
+	}
+
 	m_dlg_find_replace->Update(CDialogFindReplace::Mode::Find, selected_text);
 }
 
@@ -885,12 +896,14 @@ void CScintilla::StartCallTip()
 {
 	static constexpr int min_length = 4; // Date is the shortest word before opening brace
 	const Position current = GetCaretInLine() - 1;
+
 	if (current < min_length)
 		return;
 
 	const std::string text = GetCurLineText();
 	const std::string current_calltip_word = GetWordStart(text, current);
 	const size_t len = current_calltip_word.length();
+
 	if (len < min_length)
 		return;
 
