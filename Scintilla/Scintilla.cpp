@@ -879,7 +879,7 @@ void CScintilla::StartAutoComplete()
 		};
 
 	auto transform = [](const API& item)
-		{ 
+		{
 			return item.text.substr(0, item.len);
 		};
 
